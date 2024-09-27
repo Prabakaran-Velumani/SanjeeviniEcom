@@ -35,6 +35,7 @@ use Modules\GeneralSetting\Entities\EmailTemplateType;
 use Modules\GeneralSetting\Entities\NotificationSetting;
 use Modules\GST\Entities\GstTax;
 use Modules\Product\Entities\ProductReport;
+use Illuminate\Support\Facades\Log;
 
 class ProductRepository
 {
@@ -158,6 +159,7 @@ class ProductRepository
         $host = activeFileStorage();
         $product = new Product();
         $user = Auth::user();
+        Log::info('$user 162');
         if ($user->role->type == 'superadmin' || $user->role->type == 'admin' || $user->role->type == 'staff') {
             $data['is_approved'] = 1;
             $data['requested_by'] = $user->role_id;
@@ -171,7 +173,7 @@ class ProductRepository
             $data['shipping_cost'] = 0;
             $digital_product = new DigitalFile();
         }
-
+        Log::info('$user 176');
         if($data['max_order_qty'] != null && $data['max_order_qty'] < 1){
             $data['max_order_qty'] = null;
         }
@@ -184,15 +186,17 @@ class ProductRepository
             $data['gtin'] = $data['gtin'];
             $data['mpn'] = $data['mpn'];
         }
-
+        Log::info('$user 189');
         if(isModuleActive('GoldPrice')){
             $data['auto_update'] = $data['auto_update_required']?$data['auto_update_required']:0;
         }
+        Log::info('$user 193');
         if (isModuleActive('FrontendMultiLang')) {
             $data['slug'] = $this->productSlug($data['product_name'][auth()->user()->lang_code]);
         }else{
             $data['slug'] = $this->productSlug($data['product_name']);
         }
+        Log::info(message: '$user 199');
         $product->fill($data)->save();
         if(isset($data['meta_image'])){
             UsedMedia::create([
@@ -202,6 +206,7 @@ class ProductRepository
                 'used_for' => 'meta_image'
             ]);
         }
+        Log::info('$user 209');
        // send notification from seller request
         if(isModuleActive('MultiVendor') && $data['request_from'] == 'seller_product_form'){
             $notificationUrl = route('seller.product.index');
@@ -215,6 +220,7 @@ class ProductRepository
                 $this->notificationSend($notification->id, $product->created_by);
             }
         }
+        Log::info('$user 223');
 
         $tags = [];
         $tags = explode(',', $data['tags']);
@@ -235,6 +241,7 @@ class ProductRepository
                 ]);
             }
         }
+        Log::info('$user 244');
         if (count($data['galary_image']) > 0) {
             $media_ids = explode(',',$data['media_ids']);
             foreach ($data['galary_image'] as $i => $image) {
@@ -250,8 +257,8 @@ class ProductRepository
                 $product_galary_image->save();
             }
         }
+        Log::info('$user 260');
         if ($data['product_type'] == 1) {
-
             $product_sku = new ProductSku;
             $product_sku->product_id = $product->id;
             if (isModuleActive('FrontendMultiLang')) {
@@ -259,6 +266,7 @@ class ProductRepository
             }else{
                 $product_sku->sku = $data['product_sku'];
             }
+            Log::info('$user 269');
             $product_sku->weight = isset($data['weight'])?$data['weight']:0;
             $product_sku->length = isset($data['length'])?$data['length']:0;
             $product_sku->breadth = isset($data['breadth'])?$data['breadth']:0;
@@ -269,20 +277,25 @@ class ProductRepository
             if (isset($data['stock_manage']) && $data['stock_manage'] == 1) {
                 $stock = $data['single_stock'];
             }
-
+            Log::info('$user 280');
             $product_sku->additional_shipping = $data['additional_shipping'];
+            Log::info('$user 282',$data);
             $product_sku->status = ($user->role->type == 'superadmin' || $user->role->type == 'admin' || $user->role->type == 'staff') ? $data['status'] : 0;
+            Log::info('$user 284',$data);
             $product_sku->product_stock = $stock;
+            Log::info('$user 285',$data);
             $product_sku->save();
 
-
+            Log::info('$user 286');
             if ($data['is_physical'] == 0 && isset($data['file_source'])) {
                 $digital_product->create([
                     'product_sku_id' => $product_sku->id,
                     'file_source' => $data['file_source'],
                 ]);
             }
+            Log::info('$user 293');
         }
+        Log::info('$user 294');
         if ($data['product_type'] == 2) {
             foreach ($data['track_sku'] as $key => $variant_sku) {
                 $product_sku = new ProductSku;
@@ -351,6 +364,7 @@ class ProductRepository
                 }
             }
         }
+        Log::info('$user 363');
         if (isset($data['related_product_hidden_name'])) {
          $related_product = json_decode($data['related_product_hidden_name']);
             foreach ($related_product as $key => $item) {
@@ -360,6 +374,7 @@ class ProductRepository
                 ]);
             }
         }
+        Log::info('$user 373');
         if (isset($data['upsale_product_hidden_name'])) {
             $up_sale = json_decode($data['upsale_product_hidden_name']);
             foreach ($up_sale as $key => $item) {
@@ -369,6 +384,7 @@ class ProductRepository
                 ]);
             }
         }
+        Log::info('$user 383');
         if (isset($data['crosssale_product_hidden_name'])) {
             $cross_sale = json_decode($data['crosssale_product_hidden_name']);
             foreach ($cross_sale as $key => $item) {
@@ -378,6 +394,7 @@ class ProductRepository
                 ]);
             }
         }
+        Log::info('$user 393');
         if (auth()->user()->role->type == 'superadmin' || auth()->user()->role->type == 'admin' || auth()->user()->role->type == 'staff') {
             $status = 0;
             if (isset($data['save_type'])) {
@@ -485,7 +502,9 @@ class ProductRepository
         if(isModuleActive('GoldPrice')){
             $data['auto_update'] = $data['auto_update_required']?$data['auto_update_required']:0;
         }
+        Log::info("**** product". json_encode($product));
         $product->update($data);
+
         if (isModuleActive('FrontendMultiLang')) {
             if (!isModuleActive('MultiVendor')) {
                 $dbproduct = DB::table('products')->where('id', $data['id'])->first();
@@ -520,17 +539,23 @@ class ProductRepository
             }
         }else{
             if (!isModuleActive('MultiVendor')) {
-                $product->sellerProducts->where('user_id', 1)->first()->update([
-                    'product_name' => $product->product_name,
-                    'status' => 1,
-                    'discount' => $product->discount,
-                    'discount_type' => $product->discount_type,
-                    'tax' => $product->tax,
-                    'tax_type' => $product->tax_type,
-                    'slug' => $this->productSlug($product->product_name),
-                    'subtitle_1' => $product->subtitle_1,
-                    'subtitle_2' => $product->subtitle_2
-                ]);
+                Log::info("product->sellerProducts". json_encode($product->sellerProducts));
+                /** Updated on 27-09-2024 to avoid user_id null error when update warehouse product while update it in Ecom*/
+                $length = count($product->sellerProducts);
+                if(isset($product->sellerProducts) && $length > 0){
+                    
+                    $product->sellerProducts->where('user_id', 1)->first()->update([
+                        'product_name' => $product->product_name,
+                        'status' => 1,
+                        'discount' => $product->discount,
+                        'discount_type' => $product->discount_type,
+                        'tax' => $product->tax,
+                        'tax_type' => $product->tax_type,
+                        'slug' => $this->productSlug($product->product_name),
+                        'subtitle_1' => $product->subtitle_1,
+                        'subtitle_2' => $product->subtitle_2
+                    ]);
+                }
             }
 
         }
@@ -1082,6 +1107,7 @@ class ProductRepository
             }
         }
         if (!isModuleActive('MultiVendor')) {
+            Log::info("****************". json_encode($product->sellerProducts));
             $frontend_product = $product->sellerProducts->where('user_id', 1)->first();
             $min_price = $frontend_product->skus->min('selling_price');
             $max_price = $frontend_product->skus->max('selling_price');

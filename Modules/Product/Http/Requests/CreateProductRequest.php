@@ -4,7 +4,7 @@ namespace Modules\Product\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use CodeZero\UniqueTranslation\UniqueTranslationRule;
-
+use Illuminate\Support\Facades\Log;
 class CreateProductRequest extends FormRequest
 {
     /**
@@ -39,6 +39,7 @@ class CreateProductRequest extends FormRequest
                 'product_sku.'. $code => ['nullable', UniqueTranslationRule::for('product_sku', 'sku')->ignore($this->id)],
             ];
         }else{
+            Log::info('else');
             return [
                 'product_name' =>'required|max:255',
                 'product_type' => 'required',

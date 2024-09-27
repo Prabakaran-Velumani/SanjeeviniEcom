@@ -273,8 +273,8 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col-md-4 col-sm-12">
+                        {{-- <div class="row"> --}}
+                            {{-- <div class="col-md-4 col-sm-12">
                                 <h3>{{__('common.warehouse_address')}}</h3>
                                 <table class="table table-borderless customer_view">
                                     <tr>
@@ -306,8 +306,8 @@
                                         <td>: <span class="ml-1"></span>{{ getNumberTranslate(@$user->SellerWarehouseAddress->warehouse_phone) }}</td>
                                     </tr>
                                 </table>
-                            </div>
-                            <div class="col-md-4 col-sm-12">
+                            </div> --}}
+                            {{-- <div class="col-md-4 col-sm-12">
                                 <h3>{{__('common.return_address')}}</h3>
                                 @if (@$user->SellerReturnAddress->same_as_warehouse)
                                     <table class="table table-borderless customer_view">
@@ -372,8 +372,8 @@
                                         </tr>
                                     </table>
                                 @endif
-                            </div>
-                        </div>
+                            </div> --}}
+                        {{-- </div> --}}
                         @if ($user->description)
                             <hr>
                                 <div class="row">

@@ -11,6 +11,7 @@ use Modules\UserActivityLog\Traits\LogActivity;
 
 class SearchController extends Controller
 {
+    /*
     function search(Request $r)
     {
         try {
@@ -77,4 +78,82 @@ class SearchController extends Controller
 
         }
     }
+        */
+        function search(Request $r)
+{
+    try {
+        if ($r->ajax() && $r->search != '') {
+            $output = '';
+            $query = strtolower($r->get('search'));  // Convert the search input to lowercase
+
+            if ($query != '') {
+                if (Auth::user()->role->type == 'superadmin') {
+                    $permission = Permission::query();
+                    $data = $permission->whereRaw('LOWER(name) LIKE ?', ['%' . $query . '%'])  // Case-insensitive search
+                        ->where('route', 'NOT LIKE', '%get-data%')
+                        ->orderBy('id', 'desc')
+                        ->where(function ($query) {
+                            $query->where('route', 'NOT LIKE', '%destroy%')
+                                ->where('route', 'NOT LIKE', '%edit%')
+                                ->where('route', 'NOT LIKE', '%update%')
+                                ->where('route', 'NOT LIKE', '%status%')
+                                ->where('route', 'NOT LIKE', '%view%')
+                                ->where('route', 'NOT LIKE', '%delete%')
+                                ->where('route', 'NOT LIKE', '%history%');
+                        })->get();
+
+                    if (count($data) > 0) {
+                        foreach ($data as $row) {
+                            if (!$row->module || isModuleActive($row->module)) {
+                                if (Route::has($row->route)) {
+                                    if ($row->route == 'seller_report.review' || (isModuleActive('MultiVendor') && $row->name == 'Company Reviews')) {
+                                        continue;
+                                    }
+                                    $output .= "<a href='" . validRouteUrl($row->route) . "'>" . $row->name . "</a>";
+                                }
+                            }
+                        }
+                    } else {
+                        $no_result = trans('common.no_results_found');
+                        $output .= "<a href='#'>$no_result</a>";
+                    }
+
+                    return $output;
+                } else {
+                    $permission = DB::table('permissions');
+
+                    $data = $permission->join('role_permission', 'permissions.id', '=', 'role_permission.permission_id')
+                        ->whereRaw('LOWER(permissions.name) LIKE ?', ['%' . $query . '%'])  // Case-insensitive search
+                        ->where(function ($query) {
+                            $query->where('route', 'NOT LIKE', '%destroy%')
+                                ->where('route', 'NOT LIKE', '%edit%')
+                                ->where('route', 'NOT LIKE', '%update%')
+                                ->where('route', 'NOT LIKE', '%status%')
+                                ->where('route', 'NOT LIKE', '%view%')
+                                ->where('route', 'NOT LIKE', '%delete%')
+                                ->where('route', 'NOT LIKE', '%history%');
+                        })->where('role_id', Auth::user()->role_id)
+                        ->get();
+
+                    if (count($data) > 0) {
+                        foreach ($data as $row) {
+                            if (!$row->module || isModuleActive($row->module)) {
+                                $output .= "<a href='" . validRouteUrl($row->route) . "'>" . $row->name . "</a>";
+                            }
+                        }
+                    } else {
+                        $no_result = trans('common.no_results_found');
+                        $output = "<a href='#'>$no_result</a>";
+                    }
+                    return $output;
+                }
+            } else {
+                return response()->json(['not found' => 'Not Found'], 404);
+            }
+        }
+    } catch (\Exception $e) {
+        LogActivity::errorLog($e->getMessage());
+    }
+}
+
 }

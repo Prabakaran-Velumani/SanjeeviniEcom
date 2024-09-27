@@ -15,6 +15,7 @@ return [
     'person_in_charge_name' => 'Person in Charge Name',
     'business_registration_number' => 'Business Registration Number',
     'seller_tin' => 'Seller TIN',
+    'gst' => 'GST',
     'upload_business_document' => 'Upload Business Document',
     'display_name' => 'Display Name',
     'shop_name' => 'Shop Name',

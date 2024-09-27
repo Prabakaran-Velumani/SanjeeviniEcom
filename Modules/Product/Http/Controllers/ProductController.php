@@ -26,6 +26,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Modules\UserActivityLog\Traits\LogActivity;
 use Modules\WholeSale\Repositories\WholesalePriceRepository;
 use Modules\GST\Services\GSTService;
+use Illuminate\Support\Facades\Log;
 
 use Modules\OrderManage\Entities\CustomerNotification;
 use App\Traits\Notification as NotificationTrait;
@@ -277,6 +278,7 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
 
+        Log::info('hi');
         DB::beginTransaction();
         try {
 

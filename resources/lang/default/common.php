@@ -309,6 +309,7 @@ return [
     'payment_information' => 'Payment Information',
     'bank_cheque' => 'Bank Cheque',
     'ibn' => 'IBN',
+    'ifsc' => 'IFSC Code',
     'routing_number' => 'Routing Number',
     'branch_name' => 'Branch Name',
     'bank_name' => 'Bank Name',

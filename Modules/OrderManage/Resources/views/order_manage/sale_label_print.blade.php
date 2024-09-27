@@ -56,6 +56,13 @@
                                                 </p>
                                             </td>
                                        </tr>
+                                       <tr>
+                                            <td>
+                                                <p class="line_grid_2" >
+                                                    {{($order->customer_id) ? getNumberTranslate($order->address->shipping_phone) : getNumberTranslate($order->guest_info->shipping_phone)}}
+                                                </p>
+                                            </td>
+                                       </tr>
                                            <tr>
                                                 <td>
                                                     <p class="line_grid_2" >

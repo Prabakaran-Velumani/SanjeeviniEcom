@@ -45,7 +45,7 @@
 
                         <div class="col-xl-6">
                             <div class="primary_input mb-25">
-                                <label class="primary_input_label" for="bank_title">{{__('common.account')}} {{__('common.title')}}<span class="text-danger">*</span></label>
+                                <label class="primary_input_label" for="bank_title">{{__('common.account')}} {{__('common.name')}}<span class="text-danger">*</span></label>
                                 <input name="bank_title" class="primary_input_field" placeholder="-" type="text"
                                        value="{{ old('bank_title')? old('bank_title'):$seller->sellerBankAccount->bank_title }}">
                                        @error('bank_title')
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-xl-6">
                             <div class="primary_input mb-25">
-                                <label class="primary_input_label" for="ibn">{{__('common.ibn')}} <span class="text-danger">*</span></label>
+                                <label class="primary_input_label" for="ibn">{{__('common.ifsc')}} <span class="text-danger">*</span></label>
                                 <input name="ibn" class="primary_input_field" placeholder="-" type="text"
                                        value="{{ old('ibn')? old('ibn'):$seller->sellerBankAccount->bank_ibn }}">
                                        @error('ibn')

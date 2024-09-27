@@ -119,7 +119,7 @@
 
                     <div class="col-xl-6">
                         <div class="primary_input mb-25">
-                            <label class="primary_input_label" for="seller_tin">{{__('seller.seller_tin')}}</label>
+                            <label class="primary_input_label" for="seller_tin">{{__('seller.gst')}}</label>
                             <input name="seller_tin" class="primary_input_field" placeholder="-" type="text"
                                    value="{{ old('seller_tin')? old('seller_tin'):$seller->SellerBusinessInformation->business_seller_tin }}">
                         </div>
