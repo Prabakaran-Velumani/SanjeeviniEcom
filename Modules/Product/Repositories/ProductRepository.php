@@ -283,6 +283,7 @@ class ProductRepository
             $product_sku->status = ($user->role->type == 'superadmin' || $user->role->type == 'admin' || $user->role->type == 'staff') ? $data['status'] : 0;
             Log::info('$user 284',$data);
             $product_sku->product_stock = $stock;
+            // $product_sku->cost_price = $data['cost_price'];
             Log::info('$user 285',$data);
             $product_sku->save();
 
@@ -337,6 +338,7 @@ class ProductRepository
                     }
                 }
                 $product_sku->product_stock = $stock;
+                // $product_sku->cost_price = $data['cost_price'];
                 $product_sku->save();
                 if (isset($data['variant_image_' . $image_increment])) {
                     UsedMedia::create([
@@ -422,6 +424,7 @@ class ProductRepository
             $sellerProduct->status = isModuleActive('MultiVendor') ? $status : $data['status'];
             $sellerProduct->subtitle_1 = $data['subtitle_1'];
             $sellerProduct->subtitle_2 = $data['subtitle_2'];
+            // $sellerProduct->cost_price = $data['cost_price'];
             $sellerProduct->save();
             $product_skus = ProductSku::where('product_id', $product->id)->get();
             foreach ($product_skus as $key => $item) {
@@ -430,10 +433,12 @@ class ProductRepository
                     'product_sku_id' => $item->id,
                     'product_stock' => $item->product_stock,
                     'selling_price' => $item->selling_price,
+                    // 'cost_price' => $item->cost_price,
                     'status' => 1,
                     'user_id' => 1
                 ]);
                 $sellerProduct->update([
+                    // 'cost_price' => $data['cost_price'],
                     'min_sell_price' => $sellerProduct->skus->min('selling_price'),
                     'max_sell_price' => $sellerProduct->skus->max('selling_price')
                 ]);
@@ -602,6 +607,7 @@ class ProductRepository
             $product_sku->product_stock = isset($data['single_stock'])?$data['single_stock']:0;
             $product_sku->additional_shipping = isset($data['additional_shipping']) ? $data['additional_shipping'] : 0;
             $product_sku->status = $data['status'];
+            $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
             $product_sku->save();
             if (isModuleActive('WholeSale') ){
                 //add/update Whole-sale price
@@ -641,6 +647,7 @@ class ProductRepository
                 $front_sku = $product->sellerProducts->where('user_id', 1)->first()->skus->first();
                 if($front_sku){
                     $front_sku->update([
+                        'cost_price' => isset($data['cost_price']) ?$data['cost_price'] : 0,
                         'selling_price' => $data['selling_price'],
                         'product_stock' => isset($data['single_stock'])?$data['single_stock']:0
                     ]);
@@ -713,6 +720,7 @@ class ProductRepository
                         $product_sku->height = isset($data['height'])?$data['height']:0;
                         $product_sku->track_sku = $data['track_sku'][$key];
                         $product_sku->selling_price = $data['selling_price_sku'][$key];
+                        $product_sku->seller_price = $product->item_id && isset($data['seller_price_sku'][$key]) ? $data['seller_price_sku'][$key] : 0;
                         $product_sku->additional_shipping = isset($data['additional_shipping']) ? $data['additional_shipping'] : 0;
                         $image_increment = $key + 1;
                         $media_img = null;
@@ -740,6 +748,7 @@ class ProductRepository
                             }
                         }
                         $product_sku->product_stock = $stock;
+                        $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                         $product_sku->save();
                         if (isset($data['variant_image_' . $image_increment])) {
                             UsedMedia::create([
@@ -757,6 +766,8 @@ class ProductRepository
                                     'product_sku_id' => $product_sku->id,
                                     'product_stock' => $product_sku->product_stock,
                                     'selling_price' => $product_sku->selling_price,
+                                    'seller_price' => $product_sku->seller_price,
+                                    'cost_price' =>isset($product_sku->cost_price) ?$product_sku->cost_price : 0,
                                     'status' => 1,
                                     'user_id' => 1
                                 ]);
@@ -785,6 +796,7 @@ class ProductRepository
                         $sku_exist->sku = $data['sku'][$key];
                         $sku_exist->track_sku = $data['track_sku'][$key];
                         $sku_exist->selling_price = $data['selling_price_sku'][$key];
+                        $sku_exist->seller_price = $product->item_id && isset($data['seller_price_sku'][$key]) ? $data['seller_price_sku'][$key] : 0;
                         $sku_exist->additional_shipping = isset($data['additional_shipping']) ? $data['additional_shipping'] : 0;
                         $image_increment = $key + 1;
                         if (isset($data['variant_image_' . $image_increment]) && @$sku_exist->variant_image_media->media_id != $data['variant_image_' . $image_increment]) {
@@ -829,6 +841,7 @@ class ProductRepository
                             }
                         }
                         $sku_exist->product_stock = $stock;
+                        $sku_exist->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                         $sku_exist->save();
                         if (!isModuleActive('MultiVendor')) {
                             $front_sku = $product->sellerProducts->where('user_id', 1)->first()->skus->where('product_sku_id', $sku_exist->id)->first();
@@ -869,7 +882,8 @@ class ProductRepository
                             if($front_sku){
                                 $front_sku->update([
                                     'product_stock' => $sku_exist->product_stock,
-                                    'selling_price' => $sku_exist->selling_price
+                                    'selling_price' => $sku_exist->selling_price,
+                                    'cost_price' => $sku_exist->cost_price
                                 ]);
                                 if(isModuleActive('GoldPrice') && $data['auto_update_required']){
                                     if(@$front_sku->product->hasDeal){
@@ -949,6 +963,7 @@ class ProductRepository
                     $product_sku->height = isset($data['height'])?$data['height']:0;
                     $product_sku->track_sku = $data['track_sku'][$key];
                     $product_sku->selling_price = $data['selling_price_sku'][$key];
+                    $product_sku->seller_price = $product->item_id && isset($data['seller_price_sku'][$key]) ? $data['seller_price_sku'][$key] : 0;
                     $product_sku->additional_shipping = isset($data['additional_shipping']) ? $data['additional_shipping'] : 0;
                     $image_increment = $key + 1;
                     $media_img = null;
@@ -981,6 +996,7 @@ class ProductRepository
                         }
                     }
                     $product_sku->product_stock = $stock;
+                    $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                     $product_sku->save();
                     if (isset($data['variant_image_' . $image_increment])) {
                         UsedMedia::create([
@@ -996,6 +1012,7 @@ class ProductRepository
                             'product_sku_id' => $product_sku->id,
                             'product_stock' => $product_sku->product_stock,
                             'selling_price' => $product_sku->selling_price,
+                            'cost_price' => $product_sku->cost_price,
                             'status' => 1,
                             'user_id' => 1
                         ]);
@@ -1113,6 +1130,7 @@ class ProductRepository
             $max_price = $frontend_product->skus->max('selling_price');
             $frontend_product->update([
                 'stock_manage' => $data['stock_manage'],
+                'cost_price' => isset($data['cost_price']) ?$data['cost_price'] : 0,
                 'min_sell_price' => $min_price,
                 'max_sell_price' => $max_price
             ]);

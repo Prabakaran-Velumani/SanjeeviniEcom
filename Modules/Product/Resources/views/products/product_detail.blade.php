@@ -127,6 +127,7 @@
                                                 <tr>
                                                     <th scope="col">{{__('product.attribute')}}</th>
                                                     <th scope="col">{{__('product.product_sku')}}</th>
+                                                    <th scope="col">{{__('product.seller_price')}}</th>
                                                     <th scope="col">{{__('product.selling_price')}}</th>
                                                     <th scope="col">{{ __('common.status') }}</th>
                                                     @if ($product->is_physical != 1 && $product->product_type == 2)
@@ -145,6 +146,7 @@
                                                         @endforeach
                                                     </td>
                                                     <td>{{ $sku->sku }}</td>
+                                                    <td>{{ single_price($sku->cost_price) }}</td>
                                                     <td>
                                                         <span> {{__('product.base_price')}}: </span>{{ single_price($sku->selling_price) }}
                                                         @if(isModuleActive('WholeSale') && !isModuleActive('MultiVendor'))

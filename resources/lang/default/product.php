@@ -68,6 +68,7 @@ return [
     'product_shipping_cost' => 'Product Shipping Cost',
     'publish_info' => 'Publish Info',
     'shipping_cost' => 'Shipping Cost',
+    'cost_price' => 'Cost Price',
     'free_shipping' => 'Free Shipping',
     'flat_rate' => 'Flat Rate',
     'product_videos_info' => 'Product Video Info',

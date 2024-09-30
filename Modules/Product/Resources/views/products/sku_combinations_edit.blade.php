@@ -5,9 +5,11 @@
             <td width="10%" class="text-center">
                 <label for="" class="control-label">{{__('product.variant')}}</label>
             </td>
+            @if($product->item_id)
             <td width="20%" class="text-center">
                 <label for="" class="control-label">{{__('product.seller_price')}}</label>
             </td>
+            @endif
             <td width="20%" class="text-center">
                 <label for="" class="control-label">{{__('product.selling_price')}}</label>
             </td>
@@ -42,11 +44,11 @@
                 $attribute_id = '';
                 foreach ($combination as $key => $items){
                     $item_value = \Modules\Product\Entities\AttributeValue::find($items);                    
-                    if ($item_value->attribute_id == 1) {
-                        $item = $item_value->color->name;
-                    }else {
+                    // if ($item_value->attribute_id == 1) {
+                    //     $item = $item_value->color->name;
+                    // }else {
                         $item = $item_value->value;
-                    }
+                    // }
                     if($key > 0 ){
                         $attribute_id .= '-'.str_replace(' ', '', $attribute[$key]);
                         $str_id .= '-'.str_replace(' ', '', $items);
@@ -59,13 +61,13 @@
                         $sku .= '-'.str_replace(' ', '', $item);
                     }
                 }
+                echo $product->item_id;
                 $valIncre +=$valIncre;
                 $imgIncrement += 1;
                 $query_1 = @$product->skus->where('sku', $sku)->first();
                 $sku_row = @$product->skus->filter(function ($skuItem) use ($sku) {
                     return stripos($skuItem->sku, $sku) !== false; // Case-insensitive like
                 })->first();
-
                 if(isModuleActive('WholeSale')){
                     $sellerProductInfo = \Modules\Seller\Entities\SellerProduct::where('product_id', @$product->id)->first();
                     $sellerProductSKU = \Modules\Seller\Entities\SellerProductSKU::where('product_id', @$sellerProductInfo->id)->where('product_sku_id', @$query_1->id)->first();
@@ -79,7 +81,11 @@
                         <input type="hidden" name="str_id[]" value="{{ $str_id }}">
                         <label for="" class="control-label mt-30">{{ $str }}</label>
                     </td>
-                    <td class="mt_10">{{@$sku_row->seller_price ? $sku_row->seller_price : 0 }}</td>
+                    @if($product->item_id)
+                    <td class="mt_10">
+                        <input class="mt_10 selling_price style_selling_price_field" type="number" name="seller_price_sku[]" value="{{ @$sku_row->seller_price ? $sku_row->seller_price : 0 }}" class="form-control" readonly>
+                    </td>
+                    @endif
                     <td class="">
                         <input class="mt_10 selling_price style_selling_price_field" type="number" name="selling_price_sku[]" value="{{ $sku_row ? $sku_row->selling_price : 1 }}" class="form-control" required>
                         @if (isModuleActive('WholeSale') && !isModuleActive('MultiVendor'))

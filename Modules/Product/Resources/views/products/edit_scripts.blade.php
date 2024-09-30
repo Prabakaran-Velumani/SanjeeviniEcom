@@ -890,6 +890,7 @@
                 $('.sku_combination').hide();
                 $('.sku_single_div').show();
                 $('.selling_price_div').show();
+                $('.cost_price_div').show();
                 $("#sku_single").removeAttr("disabled");
                 $("#purchase_price").removeAttr("disabled");
                 $("#selling_price").removeAttr("disabled");
@@ -910,6 +911,7 @@
                 $('.sku_combination').show();
                 $('.customer_choice_options').show();
                 $('.selling_price_div').hide();
+                $('.cost_price_div').hide();
                 $("#sku_single").attr('disabled', true);
                 $("#purchase_price").attr('disabled', true);
                 $("#selling_price").attr('disabled', true);
