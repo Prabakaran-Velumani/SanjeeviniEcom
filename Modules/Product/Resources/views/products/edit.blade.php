@@ -450,7 +450,10 @@ $LanguageList = getLanguageList();
                                                 </div>
                                             </div>
                                         </div>
+                                        {{isModuleActive('MultiVendor')}}
+
                                         @if(!isModuleActive('MultiVendor'))
+                                        {{-- {{!isModuleActive('MultiVendor')}} --}}
                                             @php
                                                 $frontend_product = $product->sellerProducts->where('user_id', 1)->first();
                                             @endphp

@@ -61,7 +61,6 @@
                         $sku .= '-'.str_replace(' ', '', $item);
                     }
                 }
-                echo $product->item_id;
                 $valIncre +=$valIncre;
                 $imgIncrement += 1;
                 $query_1 = @$product->skus->where('sku', $sku)->first();
