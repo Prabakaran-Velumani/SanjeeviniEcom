@@ -2,6 +2,8 @@
     <script src="{{asset(asset_path('backend/vendors/js/icon-picker.js'))}}"></script>
     <script type="text/javascript">
     (function($) {
+
+        
         "use strict";
         var gold_module_check = "{{isModuleActive('GoldPrice')}}";
         $(document).ready(function() {

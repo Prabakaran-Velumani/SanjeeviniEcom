@@ -739,4 +739,5 @@ return [
     "create_date"=> "Create Date",
     'warehouse' => 'Warehouse',
     'warehouse_address' => 'Warehouse Address',
+'ifsc' => 'IFSC Code',
 ];

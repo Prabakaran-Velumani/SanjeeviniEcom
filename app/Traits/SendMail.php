@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\GeneralSetting\Entities\EmailTemplateType;
 use Modules\UserActivityLog\Traits\LogActivity;
 use PDF;
+use Illuminate\Support\Facades\Log;
 
 trait SendMail
 {
@@ -295,7 +296,7 @@ trait SendMail
 
     public function sendMailTest($to, $subject, $body)
     {
-
+	Log::info("*** app('general_setting')->mail_protocol". app('general_setting')->mail_protocol);
         try {
             if (app('general_setting')->mail_protocol == "smtp") {
                 $attribute = [
@@ -303,8 +304,11 @@ trait SendMail
                     'subject' => $subject,
                     'content' => $body
                 ];
-
-                Mail::to($to)->queue(new TestSmptMail($attribute));
+		Log::info("*** attribute". json_encode($attribute));
+		Log::info("*** to". json_encode($to));
+		             
+			Mail::to($to)->queue(new TestSmptMail($attribute));
+		
                 return true;
             } elseif (app('general_setting')->mail_protocol == "sendmail") {
                 $datas = [

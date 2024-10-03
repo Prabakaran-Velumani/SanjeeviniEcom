@@ -25,9 +25,9 @@ class ProductReviewRepository
             return false;
         } else {
             $product_type_temp = '';
-
-            foreach ($data['product_id'] as $key => $id) {
-                $product_type_temp = $data['product_type'][$key];
+            $product_ids = is_array($data['product_id']) ? $data['product_id'] : [$data['product_id']];
+            foreach ($product_ids as $key => $id) {
+                $product_type_temp = is_array($data['product_id']) ? $data['product_type'][$key] : $data['product_type'];
                 $review = ProductReview::create([
                     'customer_id' => $user->id,
                     'seller_id' => $data['seller_id'],
@@ -36,7 +36,7 @@ class ProductReviewRepository
                     'order_id' => $data['order_id'],
                     'package_id' => $data['package_id'],
                     'review' => isset($data['product_review'][$key]) ? $data['product_review'][$key] : null,
-                    'rating' => ($product_type_temp == 'product') ? $data['product_rating_' . $id] : $data['giftcard_rating_' . $id],
+                    'rating' => ($product_type_temp == 'product') ? (int) $data['product_rating_' . $id] : (int) $data['giftcard_rating_' . $id],
                     'is_anonymous' => isset($data['is_anonymous']) ? $data['is_anonymous'] : 0
                 ]);
                 if ($product_type_temp == 'product') {
@@ -103,7 +103,7 @@ class ProductReviewRepository
             $sellerReview = SellerReview::create([
                 'seller_id' => $data['seller_id'],
                 'order_id' => $data['order_id'],
-                'rating' => $data['seller_rating'],
+                'rating' => (int) $data['seller_rating'],
                 'review' => isset($data['seller_review']) ? $data['seller_review'] : null,
                 'customer_id' => $user->id,
                 'is_anonymous' => isset($data['is_anonymous']) ? $data['is_anonymous'] : 0

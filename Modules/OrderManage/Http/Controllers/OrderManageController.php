@@ -13,18 +13,17 @@ use Illuminate\Support\Facades\DB;
 use Modules\OrderManage\Repositories\CancelReasonRepository;
 use Modules\UserActivityLog\Traits\LogActivity;
 use App\Models\User;
-use \Modules\GeneralSetting\Services\GeneralSettingService;
 use Modules\GeneralSetting\Entities\GeneralSetting;
+
 class OrderManageController extends Controller
 {
 
-    protected $ordermanageService,$generalSettingService;
+    protected $ordermanageService;
 
-    public function __construct(OrderManageService $ordermanageService,GeneralSettingService $generalSettingService)
+    public function __construct(OrderManageService $ordermanageService)
     {
         $this->middleware('maintenance_mode');
         $this->ordermanageService = $ordermanageService;
-        $this->generalSettingService = $generalSettingService;
     }
 
     public function index()
@@ -246,7 +245,6 @@ class OrderManageController extends Controller
         return view('ordermanage::order_manage.sale_print', $data);
 
     }
-
     public function LabelPrint($id)
     {
         $data['order'] = $this->ordermanageService->findOrderByID($id);

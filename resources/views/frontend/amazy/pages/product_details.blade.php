@@ -314,6 +314,7 @@
                                                 </div>
                                             </div>
                                         @endif
+                                        <input type="hidden" name="attribute_selected_data" id="attribute_selected_data" value="">
                                         @if ($item['attr_id'] != 1)
                                             <div class="product_color_varient mb_20">
                                                 <h5 class="font_14 f_w_500 theme_text3  text-capitalize d-block mb_10" id="size_name{{$key}}">{{$item['name']}}: {{$item['value'][0]}}</h5>
@@ -1007,15 +1008,12 @@
                                     @php
                                         $total_review = $product->seller->sellerReviews->where('status',1)->sum('rating');
                                         $review_count = $product->seller->sellerReviews->where('status',1)->count();
-                                    @endphp
-                                    @php
                                         $review  = 1;
-                                         if( $total_review > 0 && review_count > 0){
+                                         if( $total_review > 0 && $review_count > 0){
                                             $review = round($total_review /$review_count,0);
                                          }
 
-                                    @endphp
-                                        <div class="single_seller_performance d-flex align-items-center gap_10 mb-1">
+                                    @endphp                                        <div class="single_seller_performance d-flex align-items-center gap_10 mb-1">
                                             <img src="{{showImage('frontend/amazy/img/product_details/star.svg')}}" alt="{{@$product->seller->SellerAccount->seller_shop_display_name}}" title="{{@$product->seller->SellerAccount->seller_shop_display_name}}">
                                             <p class="font_14 f_w_400 m-0">{{__('amazy.Order Fulfilment Rate')}}:</p>
                                             <h4 class="font_14 f_w_500 m-0">
@@ -1347,6 +1345,17 @@
                     $(this).closest('.color_List').find('.not_111').removeClass('selected_btn');
                 }
                 $(this).addClass('selected_btn');
+                const Data = [{
+                    name: $(this).attr('data-name'),
+                    attr_id: $(this).attr('data-value-key'),
+                    attr_val_id: $(this).attr('data-value'),
+            }];
+                
+                // Corrected this line
+                $('#attribute_selected_data').val(JSON.stringify(Data));
+    //             console.log("Value: " + $(this).attr('data-value'));
+    // console.log("Key: " + $(this).attr('data-value-key'));
+    // console.log("Name: " + $(this).attr('data-name'));
                 get_price_accordint_to_sku();
 
             });
@@ -1699,6 +1708,8 @@
                 $('#final_price').val(value);
             }
             function get_price_accordint_to_sku(){
+                var getSeletedAttribute = $("input[name='attribute_selected_data']").val();
+                console.log("Value: " + getSeletedAttribute);
                 var value = $("input[name='attr_val_name[]']").map(function(){return $(this).val();}).get();
                 var id = $("input[name='attr_val_id[]']").map(function(){return $(this).val();}).get();
                 var product_id = $("#product_id").val();
@@ -1758,6 +1769,7 @@
                             changeTabbyAmount();
                         @endif
                     }
+                    console.log('response.data.product',response.data.product)
                     $(response.data.product.variantDetails).each(function( key,index ) {
                         if(response.data.product.variantDetails.length > 1){
                             $.each(color, function(i, v) {
@@ -1765,6 +1777,7 @@
                                 if (isLastElement) {
                                     $('#color_name').text(index.name +': ' + v);
                                 }else{
+                                    console.log('index =>',index)
                                     $('#size_name'+key).text(index.name +': ' + color[key+1]);
                                 }
                             });

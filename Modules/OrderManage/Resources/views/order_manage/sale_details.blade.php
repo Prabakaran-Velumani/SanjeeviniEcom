@@ -18,11 +18,11 @@
                                             target="_blank"
                                             class="primary-btn fix-gr-bg radius_30px mr-10">{{ __('order.print') }}</a>
                                     </li>
-                                    <li><a href="{{ route('order_manage.print_order_label_details', $order->id) }}"
+ <li><a href="{{ route('order_manage.print_order_label_details', $order->id) }}"
                                             target="_blank"
                                             class="primary-btn fix-gr-bg radius_30px mr-10">{{ __('order.label_print') }}</a>
                                     </li>
-                                </ul>
+                                                                   </ul>
                             </div>
                         </div>
                     </div>
@@ -281,19 +281,15 @@
                                                     <small>({{ @$order_package->delivery_process->name }})</small>
                                                 @endif
                                             </h3>
-                                            @php
-                                            echo $order_package;
-                                            @endphp
                                             @if(isModuleActive('MultiVendor'))
-
                                             <ul class="d-flex float-right">
                                                 <li>
                                                     <strong>
-                                                        {{-- @if($order_package->seller->role->type == 'seller')
+                                                        @if($order_package->seller->role->type == 'seller')
                                                             {{ @$order_package->seller->SellerAccount->seller_shop_display_name ? @$order_package->seller->SellerAccount->seller_shop_display_name : @$order_package->seller->first_name }}
-                                                        @else --}}
+                                                        @else
                                                             {{ app('general_setting')->company_name }}
-                                                        {{-- @endif --}}
+                                                        @endif
 
                                                     </strong>
                                                 </li>

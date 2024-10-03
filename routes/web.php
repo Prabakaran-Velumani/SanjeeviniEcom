@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Log;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +42,7 @@ use App\Http\Controllers\Frontend\ReturnExchangeController;
 use App\Http\Controllers\Frontend\DigitalGiftCardController;
 use Modules\OrderManage\Http\Controllers\OrderManageController;
 
+
 Route::post('/locale',[LanguageController::class,'locale'])->name('frontend.locale')->middleware('prohibited_demo_mode');
 Auth::routes(['verify' => true]);
 Route::get('/admin/login', [LoginController::class, 'showAdminLoginForm'])->name('admin.login');
@@ -65,6 +66,7 @@ Route::middleware(['admin'])->group(function () {
 });
 Route::post('search',[SearchController::class,'search'])->name('routeSearch');
 //for category page
+
 Route::get('/category',[CategoryController::class,'index'])->name('frontend.category');
 Route::get('category/fetch_data', [CategoryController::class,'fetchPagenateData'])->name('frontend.category.fetch-data');
 Route::post('/category-filter-product',[CategoryController::class,'filterIndex'])->name('frontend.category_page_product_filter');
@@ -87,7 +89,7 @@ Route::post('/cart/update',[CartController::class,'update'])->name('frontend.car
 Route::post('/cart/delete-all',[CartController::class,'destroyAll'])->name('frontend.cart.delete-all');
 Route::post('/cart/delete',[CartController::class,'destroy'])->name('frontend.cart.delete');
 Route::post('/cart/update-qty',[CartController::class,'updateQty'])->name('frontend.cart.update-qty');
-Route::post('/cart/update-sidebar-qty',[CartController::class,'sidebarUpdateQty'])->name('frontend.cart.update-qty');
+Route::post('/cart/update-sidebar-qty',[CartController::class,'sidebarUpdateQty'])->name('frontend.cart.update-sidebar-qty');
 Route::post('/cart/select-all',[CartController::class,'selectAll'])->name('frontend.cart.select-all');
 Route::post('/cart/select-all-seller',[CartController::class,'selectAllSeller'])->name('frontend.cart.select-all-seller');
 Route::post('/cart/select-item',[CartController::class,'selectItem'])->name('frontend.cart.select-item');
@@ -298,3 +300,14 @@ Route::fallback(function($slug){
 Route::get('convert-images',[UploadFileController::class,'convertImages'])->name('convertImages');
 
 Route::get('/translate',[DemoController::class,'translate'])->name('translateDb');
+
+Route::get('/warehouses/{any?}', function () {
+    // Forward request to nested Laravel project
+    $path = public_path('warehouse/' . request()->path());
+
+    if (file_exists($path)) {
+        return response()->file($path);
+    }
+
+    abort(404);
+})->where('any', '.*');

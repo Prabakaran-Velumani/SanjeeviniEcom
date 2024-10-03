@@ -87,11 +87,20 @@
         "use strict";
         var filterType = [];
         $(document).ready(function(){
-            '@if(isset($color) && $color && $color->id == 1)'+
-            '@foreach ($color->values as $ki => $item)'+
-                $("span.colors_{{ $ki }}").css("background", "{{ $item->value }}");
-            '@endforeach'+
-            '@endif'
+
+            @if(isset($color))
+                @php
+                    $isCollection = $color instanceof Illuminate\Database\Eloquent\Collection;
+                    $colorData = $isCollection ? json_decode(json_encode($color->first()), true) : $color;
+                @endphp
+
+                @if($colorData && ($colorData['id'] == 1 || $colorData['id'] == 2))
+                    @foreach ($colorData['values'] as $ki => $item)
+                        $("span.colors_{{ $ki }}").css("background", "{{ $item['value'] }}");
+                    @endforeach
+                @endif
+            @endif
+
             $(document).on('click', '#refresh_btn', function(event){
                 event.preventDefault();
                 filterType = [];

@@ -190,7 +190,7 @@ body - var(--body_color)
 }
 
 .modal-content .modal-header {
-    background: var(--primary_color);
+    background:#00b5e3;
 }
 
 .menu_svg_icon {

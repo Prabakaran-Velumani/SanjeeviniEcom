@@ -21,6 +21,7 @@ use Modules\Setup\Repositories\CountryRepository;
 use Modules\Setup\Repositories\StateRepository;
 use Modules\UserActivityLog\Traits\LogActivity;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Log;
 
 class GeneralSettingController extends Controller
 {
@@ -226,7 +227,9 @@ class GeneralSettingController extends Controller
         }
         $shopLinkUrl = app('general_setting')->shop_link_banner;
         if ($request->shop_link_banner != null) {
-            $shopLinkUrl = $this->saveSettingsImages($request->shop_link_banner,350,1920);
+
+	Log::info("request->shop_link_banner". $request->shop_link_banner);
+            $shopLinkUrl = $this->saveSettingsImage($request->shop_link_banner,350,1920);
             $request->merge(["shop_link_banner" => $shopLinkUrl]);
         }
         if ($request->currency_id != null) {

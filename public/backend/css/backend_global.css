@@ -979,7 +979,7 @@ button.dt-button {
 
 @media (max-width: 480px){
     .small_logo_crm img {
-        width: 70px;
+        width: 150px;
     }
     .header_iner{
             padding: 5px 15px;

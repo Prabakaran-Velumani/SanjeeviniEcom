@@ -16,6 +16,8 @@ use Modules\Product\Repositories\BrandRepository;
 use Modules\Product\Repositories\CategoryRepository;
 use Modules\Seller\Entities\SellerProduct;
 use Modules\Setup\Entities\Tag;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class FilterRepository
 {
@@ -88,14 +90,15 @@ class FilterRepository
             $this->joins = ['products','category_product','categories'];
         }
 
-
         if(isset($data['filterType']) ){
             foreach ($data['filterType'] as $key => $filter) {
-
                 if ($filter['filterTypeId'] == "cat" && !empty($filter['filterTypeValue'])) {
                     $typeVal = $filter['filterTypeValue'];
-
-                    $products = $this->productThroughCat($typeVal, $products);
+                    if ($min_price != '' && $max_price != ''){
+                        $products = $this->productThroughCat1($typeVal, $products, $min_price, $max_price, $requestType, $requestItem);
+                    } else{
+                        $products = $this->productThroughCat($typeVal, $products);
+                    }
                     $giftCards = collect();
                 }
                 if ($filter['filterTypeId'] == "brand" && !empty($filter['filterTypeValue'])) {
@@ -109,6 +112,7 @@ class FilterRepository
                     $products = $this->productThroughAttribute($typeId, $typeVal, $products, $requestType, $requestItem);
                     $giftCards = collect();
                 }
+                // && $products->isEmpty()
                 if ($filter['filterTypeId'] == "price_range") {
                     $min_price = round(end($filter['filterTypeValue'])[0])/$this->getConvertRate();
                     $max_price = round(end($filter['filterTypeValue'])[1])/$this->getConvertRate();
@@ -118,7 +122,6 @@ class FilterRepository
                 if ($filter['filterTypeId'] == "rating") {
                     $rating = $filter['filterTypeValue'][0];
                     $products = $this->productThroughRating($rating, $requestType, $requestItem, $products);
-
                     $giftCards = $giftCards->where('avg_rating', '>=', $rating);
                 }
                 if ($data['requestItemType'] == "category" && empty($filter['filterTypeValue'])) {
@@ -126,6 +129,13 @@ class FilterRepository
                     $catRepo = new CategoryRepository(new Category());
                     $subCat = $catRepo->getAllSubSubCategoryID($cat);
                     $subCat[] = intval($cat);
+                    //$products = SellerProduct::with('skus', 'product')->where('status', 1)->whereHas('product', function ($query) use ($cat, $subCat) {
+                        //$query->whereHas('categories', function($q) use($cat){
+                            //$q->where('category_id',$cat)->orWhereHas('subCategories',function($q2) use($cat){
+                                //$q2->where('parent_id', $cat);
+                            //});
+                        //});
+                    //})->activeSeller()->get();
                     $products = $products->where('category_product.category_id', $cat)->whereRaw("categories.id in ('". implode("','", $subCat)."')");
                     $giftCards = collect();
                 }
@@ -138,15 +148,13 @@ class FilterRepository
                 }
             }
         }
-
-
         session()->put('filterDataFromCat', $data);
         if($giftCards->count()){
             $giftCards = $giftCards->take(60)->get();
         }else{
             $giftCards = [];
         }
-        $products = $products->distinct('seller_products.id')->take(60)->get();//
+        $products = $products->distinct('seller_products.id')->take(60)->get();
         $products = $products->merge($giftCards);
         return $this->sortAndPaginate($products, $sort_by, $paginate_by);
     }
@@ -214,7 +222,7 @@ class FilterRepository
                             $q2->where('parent_id', $cat);
                         });
                     });
-                })->activeSeller();
+                })->activeSeller()->get();
             }
             if ($data['requestItemType'] == "brand" && empty($filter['filterTypeId'])) {
                 $cat = $data['requestItem'];
@@ -357,7 +365,8 @@ class FilterRepository
                     });
             })
             ->distinct('seller_products.id')
-            ->orderBy('seller_products.id', 'desc');
+            ->orderBy('seller_products.id', 'desc')
+            ->get();
         // return $products;
         return $this->sortAndPaginate($products, $sort_by, $paginate_by);
     }
@@ -465,12 +474,73 @@ class FilterRepository
             })->max('selling_price');
         }
     }
+    //-----rocky-------product list based on subcategory in category filter
+    public function productThroughCat1($typeVal, $products, $min_price, $max_price, $requestType, $requestItem)
+    {
+        try {
+            // Build array of category IDs
+            $ids = [];
+            foreach ($typeVal as $cat) {
+                $ids[] = $cat;
+            }
+            $products = SellerProduct::query()->with('product', 'reviews', 'skus')->activeSeller()->select('seller_products.*')->join('products', function ($query) {
+                $query->on('products.id','=','seller_products.product_id')->where('products.status', 1)->join('category_product', function ($q) {
+                    $q->on('products.id', 'category_product.product_id')->join('categories', function ($q1) {
+                        $filter_type = gv(request()->filterType??[], 0);
+                        $with_parent_category = !gv($filter_type??[], 'filterTypeValue');
+                        $q1->on('category_product.category_id', 'categories.id')->when($with_parent_category, function ($q){
+                            $q->orOn('category_product.category_id', 'categories.parent_id');
+                        });
+                    });
+                });
+            });
+            $this->joins = ['products','category_product','categories'];
+            // Apply category or brand-based filtering
+            if ($requestType == "category") {
+                // Join category_product if not already joined
+                if (!in_array('category_product', $this->joins)) {
+                    $products = $products->join('category_product', 'category_product.product_id', '=', 'products.id');
+                    array_push($this->joins, 'category_product');
+                }
+                $products = $products->where('products.status', 1)
+                                     ->whereIn('category_product.category_id', $ids); // Use whereIn for multiple categories
+            } elseif ($requestType == "brand") {
+                $products = $products->where('products.status', 1)
+                                     ->whereIn('products.brand_id', $ids); // Use whereIn for brands
+            }
+
+            // Check if the necessary joins for seller_product_s_k_us table have been added
+            if (!in_array('seller_product_s_k_us', $this->joins)) {
+                $products = $products->join('seller_product_s_k_us', function ($q) use ($min_price, $max_price) {
+                    $q->on('products.id', '=', 'seller_product_s_k_us.product_id')
+                      ->whereBetween('seller_product_s_k_us.selling_price', [$min_price, $max_price]); // Apply price range filter
+                });
+                array_push($this->joins, 'seller_product_s_k_us');
+            } else {
+                // If join exists, just apply the price filter
+                $products = $products->whereBetween('seller_product_s_k_us.selling_price', [$min_price, $max_price]);
+            }
+
+            // Return the modified products query
+            return $products;
+
+        } catch (QueryException $e) {
+            // Log the database exception message for debugging
+            //Log::error('Database Error in productThroughCat1: ' . $e->getMessage());
+            return response()->json(['error' => 'A database error occurred while fetching products.'], 500);
+        } catch (\Exception $e) {
+            // Log any other exception message for debugging
+            //Log::error('Error in productThroughCat1: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while fetching products.'], 500);
+        }
+    }
     public function productThroughCat($typeVal, $products)
     {
         $ids = [];
         foreach($typeVal as $cat){
             $ids[] = $cat;
         }
+        //return $products;
         if(!in_array('products',$this->joins)){
             $products = $products;
             array_push($this->joins,'products');
@@ -484,6 +554,7 @@ class FilterRepository
             array_push($this->joins, 'category_product', 'categories');
         }else{
             $products = $products->whereRaw("categories.id in ('". implode("','", $ids)."')");
+            //$products = $products->whereIn('categories.id', $ids);
         }
         return $products;
     }
@@ -569,6 +640,7 @@ class FilterRepository
     }
     public function productThroughPriceRange($min_price, $max_price, $requestType, $requestItem, $products)
     {
+        //return $products;
         if ($requestType ==  "category") {
             $products = $products->where('products.status', 1)->where('category_product.category_id', $requestItem);
         }

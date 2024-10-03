@@ -747,6 +747,16 @@ class ProductRepository
                                 }
                             }
                         }
+                        else
+                        {
+                            if ($data['stock_manage'] == 1) {
+                                if ($data['product_type'] == 1) {
+                                    $stock = isset($data['single_stock'])?$data['single_stock']:0;
+                                } else {
+                                    $stock = isset($data['sku_stock'])?$data['sku_stock'][$key]:0;
+                                }
+                            }
+                        }
                         $product_sku->product_stock = $stock;
                         $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                         $product_sku->save();
@@ -832,6 +842,16 @@ class ProductRepository
                         $sku_exist->status = $data['status'];
                         $stock = 0;
                         if (!isModuleActive('MultiVendor')) {
+                            if ($data['stock_manage'] == 1) {
+                                if ($data['product_type'] == 1) {
+                                    $stock = isset($data['single_stock'])?$data['single_stock']:0;
+                                } else {
+                                    $stock = isset($data['sku_stock'])? $data['sku_stock'][$key]:0;
+                                }
+                            }
+                        }
+                        else
+                        {
                             if ($data['stock_manage'] == 1) {
                                 if ($data['product_type'] == 1) {
                                     $stock = isset($data['single_stock'])?$data['single_stock']:0;
@@ -987,6 +1007,14 @@ class ProductRepository
                     $product_sku->status = $data['status'];
                     $stock = 0;
                     if (!isModuleActive('MultiVendor')) {
+                        if ($data['stock_manage'] == 1) {
+                            if ($data['product_type'] == 1) {
+                                $stock = isset($data['single_stock'])?$data['single_stock']:0;
+                            } else {
+                                $stock = isset($data['sku_stock'])?$data['sku_stock'][$key]:0;
+                            }
+                        }
+                    }else{
                         if ($data['stock_manage'] == 1) {
                             if ($data['product_type'] == 1) {
                                 $stock = isset($data['single_stock'])?$data['single_stock']:0;

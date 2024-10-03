@@ -21,7 +21,6 @@ use Illuminate\Validation\Rule;
 use Modules\UserActivityLog\Traits\LogActivity;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\UserActivityLog\Entities\LogActivity as LogActivityModel;
-use Illuminate\Support\Facades\Log;
 class CustomerController extends Controller
 {
     use ImageStore;
@@ -291,8 +290,6 @@ class CustomerController extends Controller
             "phone.min" => "Minimum ".app('general_setting')->min_digit." digits required on phone number"
         ]);
         try {
-
-            Log::info($request->all);
             $user=User::findOrFail(auth()->user()->id);
             $data=[
                 'first_name' => $request->first_name,

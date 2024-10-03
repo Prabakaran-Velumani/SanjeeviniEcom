@@ -1,4 +1,4 @@
-<script src="{{ asset(asset_path('frontend/default/compile_js/app.js')) }}"defer ></script>
+<script src="{{ asset(asset_path('frontend/default/compile_js/app.js')) }}" defer ></script>
 
 <script>
 
@@ -476,7 +476,7 @@
                             if(item.stock){
                                 stock = `<div class="product_available">{{__('product.in_stock')}}</div>`;
                             }else{
-                                stock = `<div class="product_stockout">{{__('prodcut.stock_out')}}</div>`;
+                                stock = `<div class="product_stockout">{{__('product.stock_out')}}</div>`;
                             }
                             productData += `
                                 <a data-type="product" href="${item.url}" class="store_link product_search_single d-flex align-items-center mb_10 gap_10">

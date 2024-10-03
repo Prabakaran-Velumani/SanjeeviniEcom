@@ -1,14 +1,25 @@
 @extends('frontend.amazy.auth.layouts.app')
+@push('styles')
+    <style>
+
+           .amazy_login_area_right_inner{border: 1px solid white;
+box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    padding: 54px;
+}
+  
+
+    </style>
+@endpush
 
 @section('content')
 <div class="amazy_login_area">
-    <div class="amazy_login_area_left d-flex align-items-center justify-content-center">
+     <div class="amazy_login_area_left d-flex align-items-center justify-content-center">
         <div class="amazy_login_form">
             <a href="{{url('/')}}" class="logo mb_50 d-block">
                 <img src="{{showImage(app('general_setting')->logo)}}" alt="{{app('general_setting')->company_name}}" title="{{app('general_setting')->company_name}}">
             </a>
             <h3 class="m-0">{{ __('amazy.Sign In') }} </h3>
-            <p class="support_text">{{__('auth.See your growth and get consulting support!')}}</p>
+          
             @if(config('app.sync'))
                 <div class="d-flex justify-content-center mt-20 grid_gap_5 flex-wrap">
                     <button class="amaz_primary_btn style2 radius_5px text-uppercase  text-center mb_25" id="admin" data-email="{{$admin_email}}">{{ __('common.admin') }}</button>
@@ -60,6 +71,13 @@
                     <div class="col-12">
                         <p class="sign_up_text">{{__('amazy.Forgot Password?')}} <a href="{{url('/password/reset')}}">{{__('common.click_here')}}</a></p>
                     </div>
+                     <div class="col-12">
+                        <p class="sign_up_text">{{__('amazy.Don’t have an Account?')}} <a href="{{url('/register')}}">{{__('amazy.Sign Up')}}</a></p>
+                    </div>
+                     <div class="col-12">
+                        <p class="sign_up_text">{{__('Return HomePage?')}} <a href="{{url('/')}}">{{__('Home')}}</a></p>
+                    </div>
+
                 </div>
             </form>
         </div>
@@ -76,6 +94,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>

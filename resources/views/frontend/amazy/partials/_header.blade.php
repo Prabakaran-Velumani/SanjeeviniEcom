@@ -141,19 +141,17 @@
         </li>
         <li>
             @if (isset($flash_deal))
-                <a class="position-relative" href="{{ route('frontend.flash-deal', $flash_deal->slug) }}">
-                    <div class="cart_singleIcon">
-                        <img class="mb_5" src="{{showImage('frontend/amazy/img/amaz_icon/deals_white.svg')}}" alt="{{__('amazy.Daily Deals')}}" title="{{__('amazy.Daily Deals')}}">
-                    </div>
-                    <span>{{__('amazy.Daily Deals')}}</span>
+                         @else
+                <a class="position-relative">
+                 
+   <div class="wish_cart">
+                            <div class="home6_search_toggle ">
+                                <i class="ti-search"></i>
+                            </div>
+                        </div>
+                    <span>{{__('common.search')}}</span>
                 </a>
-            @else
-                <a class="position-relative" href="{{url('/profile/notifications')}}">
-                    <div class="cart_singleIcon">
-                        <i class="ti-bell"></i>
-                    </div>
-                    <span>{{__('common.notification')}}</span>
-                </a>
+
             @endif
         </li>
         @guest

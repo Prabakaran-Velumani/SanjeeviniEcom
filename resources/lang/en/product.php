@@ -80,6 +80,7 @@
   'price_info_and_stock' => 'Price Info And Stock',
   'purchase_price' => 'Purchase Price',
   'selling_price' => 'Selling Price',
+  'seller_price' => 'Seller Price',
   'tax' => 'Tax',
   'tax_type' => 'Tax Type',
   'discount' => 'Discount',

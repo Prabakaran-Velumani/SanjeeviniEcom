@@ -10,6 +10,7 @@ use Modules\GiftCard\Entities\GiftCard;
 use Modules\Seller\Entities\SellerProductSKU;
 use Modules\UserActivityLog\Traits\LogActivity;
 
+
 class CartController extends Controller
 {
     use GoogleAnalytics4;

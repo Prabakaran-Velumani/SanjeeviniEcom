@@ -248,7 +248,7 @@ return [
    'gift_card_code_selling_price' => 'Gift Card Selling Code',
    'product_sale' => 'Product Sale',
    'add_product' => 'Add Product',
-   'stock_out' => 'Stock Out',
+   'stock_out' => 'Out of Stock',
    'base_price' => 'Base Price',
    'number_og_gift_card' => 'Number of Gift Card',
    'discount_amount' => 'Discount Amount',

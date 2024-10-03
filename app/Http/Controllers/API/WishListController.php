@@ -242,7 +242,7 @@ class WishListController extends Controller
             'type' => 'required'
         ]);
 
-        $result = $this->wishlistService->removeForAPI($request->id, $request->type, auth()->id());
+        $result = $this->wishlistService->removeForAPI($request->id, $request->type, $request->seller_product_id,auth()->id());
         if($result){
             return response()->json([
                 'message' => 'product removed from wishlist successfully.'

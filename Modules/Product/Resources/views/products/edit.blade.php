@@ -450,10 +450,9 @@ $LanguageList = getLanguageList();
                                                 </div>
                                             </div>
                                         </div>
-                                        {{isModuleActive('MultiVendor')}}
+
 
                                         @if(!isModuleActive('MultiVendor'))
-                                        {{-- {{!isModuleActive('MultiVendor')}} --}}
                                             @php
                                                 $frontend_product = $product->sellerProducts->where('user_id', 1)->first();
                                             @endphp
@@ -477,7 +476,14 @@ $LanguageList = getLanguageList();
                                                     <span class="text-danger">{{ $errors->first('single_stock') }}</span>
                                                 </div>
                                             </div>
-
+                                        @else
+                                        @php
+                                        $stock_manage = $product->item_id ? $product->stock_manage : "0";
+                                        @endphp
+                                        <input type="hidden" class="primary_input_field" name="stock_manage" id="stock_manage"
+                                          value="{{$stock_manage}}">
+                                        <input type="hidden" class="primary_input_field" name="single_stock" id="single_stock"
+                                        value="{{old('single_stock')?old('single_stock'):@$frontend_product->skus[0]->product_stock}}">
                                         @endif
                                         <div class="col-lg-6 cost_price_div">
                                             <div class="primary_input mb-15">

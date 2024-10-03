@@ -74,27 +74,24 @@
         <p class="mt-3 newpara">Our mission is to provide a platform for these artisans to showcase their work and connect with customers who appreciate the value of handmade, sustainable goods.</p>
      
     </div>
-    <div class="social_links mt-3">
-        <a href="https://facebook.com" target="_blank" class="facebook-icon me-2" >
+   <!--- <div class="social_links mt-3">
+        <a href="" target="_blank" class="facebook-icon me-2"  alt="social" >
             <i class="fab fa-facebook"></i>
         </a>
-   <a href="https://twitter.com" target="_blank" class="twitter-icon me-2">
- <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/newttww.png" style="padding-bottom: 10px;">
+   <a href="" target="_blank" class="twitter-icon me-2">
+ <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/newttww.png" style="padding-bottom: 10px;" alt="social">
 </a>
 
-        <a href="https://pinterest.com" target="_blank" class="pinterest-icon me-2">
+        <a href="" target="_blank" class="pinterest-icon me-2" alt="social">
             <i class="fab fa-pinterest"></i>
         </a>
-        <a href="https://linkedin.com" target="_blank" class="linkedin-icon">
+        <a href="" target="_blank" class="linkedin-icon"alt="social">
             <i class="fab fa-linkedin"></i>
         </a>
         
-        
-        <!--<a href="" target="_blank" class="tele-icon">-->
-        <!--<i class="fab fa-telegram-plane"></i>-->
-        <!--</a> -->
-       
-    </div>
+    
+   
+    </div>--->
 
                  </div>
                     <div class="col-xl-2 col-lg-2 col-md-6 footer_links_50 ">
@@ -130,7 +127,7 @@
                     </div>
 					<div class="col-xl-2 col-lg-2 col-md-6">
                         <div class="footer_widget">
-						    <h4><b>Our legal</b></h4>
+						    <h4><b>Policy List</b></h4>
                             <ul class="footer_links">
                                 @foreach($sectionWidgets->where('section','4') as $page)
                                 {{-- {{$page}} --}}
@@ -151,7 +148,7 @@
                                 @if($footer_content->show_play_store)
                                 <a href="{{$footer_content->play_store}}" class="google_play_boxx d-flex align-items-center mb_10">
                                     <div class="newimg">
-                                        <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/google-playss.jpg" alt="{{__('amazy.Google Play')}}" title="{{__('amazy.Google Play')}}">
+                                        <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/google-playss.jpg" width="100%" height="100%" alt="{{__('amazy.Google Play')}}" title="{{__('amazy.Google Play')}}">
                                     </div>
                                   
                                 </a>
@@ -159,7 +156,7 @@
                                 @if($footer_content->show_app_store)
                                 <a href="{{$footer_content->app_store}}" class="google_play_boxx d-flex align-items-center">
                                     <div class="newimg">
-                                        <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/appleplay.jpg" alt="{{__('amazy.Apple Store')}}"  title="{{__('amazy.Apple Store')}}" >
+                                        <img src="{{url('/')}}/public/frontend/amazy/img/amaz_icon/appleplay.jpg" width="100%" height="100%" alt="{{__('amazy.Apple Store')}}"  title="{{__('amazy.Apple Store')}}" >
                                     </div>
                                  
                                 </a>

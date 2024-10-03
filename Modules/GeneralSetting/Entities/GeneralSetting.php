@@ -11,6 +11,7 @@ use Spatie\Translatable\HasTranslations;
 use Modules\Setup\Entities\City;
 use Modules\Setup\Entities\Country;
 use Modules\Setup\Entities\State;
+
 class GeneralSetting extends Model
 {
     use HasTranslations;
@@ -27,15 +28,7 @@ class GeneralSetting extends Model
             'meta_site_title','meta_description','up_sale_product_display_title','cross_sale_product_display_title'];
         }
     }
-    public function state()
-    {
-        return $this->belongsTo(State::class, 'state_id');
-    }
 
-    public function city()
-    {
-        return $this->belongsTo(City::class, 'city_id');
-    }
      public function language()
     {
         return $this->belongsTo(Language::class);
@@ -54,6 +47,15 @@ class GeneralSetting extends Model
     public function timeZone()
     {
         return $this->belongsTo(TimeZone::class);
+    }
+ public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
     }
 
 }

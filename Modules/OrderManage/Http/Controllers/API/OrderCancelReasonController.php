@@ -114,7 +114,7 @@ class OrderCancelReasonController extends Controller
         try {
             $data = $this->orderService->orderFindByOrderID($request->order_id);
             if($data){
-                if($request->user()->id == $data->customer_id && $data->is_confirmed != 1){
+                if($request->user()->id == $data->customer_id && $data->is_confirmed == 1){
                     $data->update([
                         'is_cancelled' => 1,
                         'cancel_reason_id' => $request->reason

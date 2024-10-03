@@ -359,8 +359,6 @@ class UtilitiesRepository
             Log::error('Error in import_demo_database: ' . $e->getMessage());
             throw $e;
         }
-<<<<<<< HEAD
-=======
 
         $zip = new ZipArchive;
         $res = $zip->open(asset_path('demo_db/demo_uploads.zip'));
@@ -419,7 +417,6 @@ class UtilitiesRepository
         Artisan::call('optimize:clear');
         return true;
 
->>>>>>> ba0b5249f9502e9ba36ce75de87b357f1d9bc31b
     }
     
     public function remove_Visitor(){

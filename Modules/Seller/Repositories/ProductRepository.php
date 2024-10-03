@@ -526,6 +526,7 @@ class ProductRepository {
     }
 
     public function get_seller_product_sku_wise_price($data){
+
         $array = [];
         if (count($data) > 0) {
             foreach ($data['id'] as $key => $id) {

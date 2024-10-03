@@ -102,9 +102,6 @@
                                             <input id="start_datepicker" name="date_of_birth" placeholder="06/23/1995" onfocus="this.placeholder = ''" onblur="this.placeholder = '06/23/1995'" class="primary_input3 style4 mb-0" value="{{date('m/d/Y',strtotime($user_info->date_of_birth))}}" type="text">
                                             <span class="text-danger" id="error_date_of_birth"></span>
                                         </div>
-                                        @php
-// echo $user_info;
-                                        @endphp
                                         <div class="col-12 mb_25">
                                             <label class="primary_label2 style2 ">{{__('common.description')}}</label>
                                             <textarea id="textarea" name="description" placeholder="{{__('common.description')}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{__('common.description')}}'" class="primary_textarea4 radius_5px">{{$user_info->description}}</textarea>

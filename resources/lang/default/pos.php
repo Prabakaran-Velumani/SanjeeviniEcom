@@ -130,7 +130,7 @@ return [
     'bank_branch' => 'Bank Branch',
     'percentage' => 'Percentage',
     'discount_type' => 'Discount Type',
-    'selling_price' => 'Selling Price',
+    'selling_price' => 'Seller Price',
     'last_selling_price' => 'Last Selling Price',
     'update' => 'Update',
     'select_prodcut' => 'Select Product',

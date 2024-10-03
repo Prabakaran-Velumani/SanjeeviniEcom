@@ -1274,8 +1274,9 @@ class ProductController extends Controller
         if ($request->has('paginate')) {
             $paginate = $request->paginate;
         }
-        $products = $this->filterService->filterProductAPI($request->filterDataFromCat, $sort_by, $paginate);
-
+        $filterData = is_array($request->filterDataFromCat) ? $request->filterDataFromCat : json_decode($request->filterDataFromCat, true);
+        $products = $this->filterService->filterProductAPI($filterData, $sort_by, $paginate);
+        //return $products;
         return ProductResource::collection($products);
     }
 

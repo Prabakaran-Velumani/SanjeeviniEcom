@@ -299,7 +299,13 @@
                     {{__('common.notification')}}</a>
                 </li>
                 <li>
-                    <a class="position-relative d-flex align-items-center log_out" href="{{ route('logout') }}">
+                    <!-- <a class="position-relative d-flex align-items-center log_out" href="{{ route('logout') }}"> -->
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a class="position-relative d-flex align-items-center log_out" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                   
                     <svg  width="16.472" height="18" viewBox="0 0 16.472 18">
                     <g id="user-octagon" transform="translate(-2.16 -1.246)">
                         <path id="Path_4175" data-name="Path 4175" d="M10.4,19.246a3.246,3.246,0,0,1-1.632-.435L3.792,15.94A3.286,3.286,0,0,1,2.16,13.111V7.385A3.286,3.286,0,0,1,3.792,4.556L8.764,1.686a3.251,3.251,0,0,1,3.264,0L17,4.556a3.286,3.286,0,0,1,1.632,2.829v5.725A3.286,3.286,0,0,1,17,15.94l-4.972,2.871A3.246,3.246,0,0,1,10.4,19.246Zm0-16.74a2.052,2.052,0,0,0-1,.268L4.42,5.645a2.014,2.014,0,0,0-1,1.741v5.725a2.024,2.024,0,0,0,1,1.741l4.972,2.871a2,2,0,0,0,2.009,0l4.972-2.871a2.014,2.014,0,0,0,1-1.741V7.385a2.024,2.024,0,0,0-1-1.741L11.4,2.774A2.052,2.052,0,0,0,10.4,2.506Z" fill="#00124e"/>

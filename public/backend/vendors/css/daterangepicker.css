@@ -285,6 +285,10 @@
     font-weight: bold;
     padding: 4px 8px;
   }
+.daterangepicker .drp-buttons .applyBtn{
+    background-color:#00b5e3 !important;
+    border-color:#00b5e3 !important;
+    }
   
   .daterangepicker.show-ranges.single.rtl .drp-calendar.left {
     border-right: 1px solid #ddd;

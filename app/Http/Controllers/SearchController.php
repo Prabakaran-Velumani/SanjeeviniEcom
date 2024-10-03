@@ -11,7 +11,7 @@ use Modules\UserActivityLog\Traits\LogActivity;
 
 class SearchController extends Controller
 {
-    /*
+/*
     function search(Request $r)
     {
         try {
@@ -78,8 +78,9 @@ class SearchController extends Controller
 
         }
     }
-        */
-        function search(Request $r)
+*/
+
+function search(Request $r)
 {
     try {
         if ($r->ajax() && $r->search != '') {

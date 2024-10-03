@@ -253,12 +253,7 @@ header.amazcartui_header .header_area .header_top_area {
                         <!--        </div>-->
                         <!--    </div>-->
                         <!--</div>-->
-                        <div class="wish_cart_mobile">
-                            <div class="home6_search_toggle ">
-                                <i class="ti-search"></i>
-                            </div>
-                        </div>
-                        <div class="mobile_menu d-block d-lg-none"></div>
+                                             <div class="mobile_menu d-block d-lg-none"></div>
                     </div>
                     <!-- header__right_end  -->
                 </div>

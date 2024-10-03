@@ -6,11 +6,11 @@
                 <label for="" class="control-label">{{__('product.variant')}}</label>
             </td>
             @if($product->item_id)
-            <td width="20%" class="text-center">
+            <td width="15%" class="text-center">
                 <label for="" class="control-label">{{__('product.seller_price')}}</label>
             </td>
             @endif
-            <td width="20%" class="text-center">
+            <td width="15%" class="text-center">
                 <label for="" class="control-label">{{__('product.selling_price')}}</label>
             </td>
             @if(!isModuleActive('MultiVendor'))
@@ -18,7 +18,7 @@
                     <label for="" class="control-label">{{__('product.stock')}}</label>
                 </td>
             @endif
-            <td width="11%" class="text-center">
+            <td width="20%" class="text-center">
                 <label for="" class="control-label">{{__('product.SKU')}}</label>
             </td>
             <td width="20%" class="text-center variant_physical_div">
@@ -49,35 +49,41 @@
                     // }else {
                         $item = $item_value->value;
                     // }
+
                     if($key > 0 ){
                         $attribute_id .= '-'.str_replace(' ', '', $attribute[$key]);
                         $str_id .= '-'.str_replace(' ', '', $items);
                         $str .= '-'.str_replace(' ', '', $item);
-                        $sku .='-'.str_replace(' ', '', $item);
+                        $sku .='-'.str_replace('', '', $item);
                     }else {
                         $attribute_id .= str_replace(' ', '', $attribute[$key]);
                         $str_id .= str_replace(' ', '', $items);
                         $str .= str_replace(' ', '', $item);
-                        $sku .= '-'.str_replace(' ', '', $item);
+                        $sku .= '-'.str_replace('', '', $item);
                     }
                 }
+
                 $valIncre +=$valIncre;
                 $imgIncrement += 1;
+                // echo $product->skus;
                 $query_1 = @$product->skus->where('sku', $sku)->first();
                 $sku_row = @$product->skus->filter(function ($skuItem) use ($sku) {
                     return stripos($skuItem->sku, $sku) !== false; // Case-insensitive like
                 })->first();
+                // echo $sku_row;
                 if(isModuleActive('WholeSale')){
                     $sellerProductInfo = \Modules\Seller\Entities\SellerProduct::where('product_id', @$product->id)->first();
                     $sellerProductSKU = \Modules\Seller\Entities\SellerProductSKU::where('product_id', @$sellerProductInfo->id)->where('product_sku_id', @$query_1->id)->first();
                     $wholesalePriceInfo = \Modules\WholeSale\Entities\WholesalePrice::where('product_id', @$sellerProductInfo->id)->where('sku_id', @$sellerProductSKU->id)->get();
                 }
+                $price = @$sku_row->seller_price ? $sku_row->seller_price : 1;
             @endphp
             @if(strlen($str) > 0)
                 <tr class="variant text-center">
                     <td class="">
                         <input type="hidden" name="str_attribute_id[]" value="{{ $attribute_id }}">
                         <input type="hidden" name="str_id[]" value="{{ $str_id }}">
+                       
                         <label for="" class="control-label mt-30">{{ $str }}</label>
                     </td>
                     @if($product->item_id)
@@ -86,7 +92,7 @@
                     </td>
                     @endif
                     <td class="">
-                        <input class="mt_10 selling_price style_selling_price_field" type="number" name="selling_price_sku[]" value="{{ $sku_row ? $sku_row->selling_price : 1 }}" class="form-control" required>
+                        <input class="mt_10 selling_price style_selling_price_field" type="number" name="selling_price_sku[]" value="{{ $sku_row ? $sku_row->selling_price == 0 ? $price : $sku_row->selling_price : $price }}" class="form-control" required>
                         @if (isModuleActive('WholeSale') && !isModuleActive('MultiVendor'))
                             <button type="button" data-toggle="modal" tabindex="-1"
                                     data-target="#variant_wholesale_price_modal_{{$sku.$ttt}}"
@@ -107,6 +113,10 @@
                                    value="{{ ($query_1) ? @$query_1->product_stock : "0" }}" min="0" step="0"
                                    class="form-control" required>
                         </td>
+                        @elseif($product->stock_manage == 1)
+                        <input type="hidden" class="primary_input_field mt-30" type="number" name="sku_stock[]"
+                        value="{{ ($query_1) ? @$query_1->product_stock : "0" }}" min="0" step="0"
+                        class="form-control">
                     @endif
                     <td class="pt-25">
                         <input class="primary_input_field mt-20" type="text" name="sku[]"

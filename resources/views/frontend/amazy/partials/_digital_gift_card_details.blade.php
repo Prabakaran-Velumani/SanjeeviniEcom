@@ -179,9 +179,9 @@
                                         <p class="font_14 f_w_400 m-0">{{__('amazy.Order Fulfilment Rate')}}:</p>
                                         <h4 class="font_14 f_w_500 m-0">
                                             @if($seller_review->rating == 1)
-                                            {{__('common.good')}}
+                                            {{__('common.very_poor')}}
                                             @elseif($seller_review->rating == 2)
-                                            {{__('common.good')}}
+                                            {{__('common.poor')}}
                                             @elseif($seller_review->rating == 3)
                                             {{__('common.neutral')}}
                                             @elseif($seller_review->rating == 4)

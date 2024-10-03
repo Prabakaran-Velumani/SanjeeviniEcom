@@ -38,7 +38,7 @@ Route::post('/social-login', [AuthController::class, 'socialLogin']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/order/{order_number}', [OrderController::class, 'singleOrder']);
-Route::get('/order-list', [OrderController::class, 'allOrderList']);
+Route::get('/order-list/{customer_id}', [OrderController::class, 'allOrderList']);
 Route::get('/delivery-processes',[OrderController::class,'deliveryProcesses']);
 
 Route::middleware('auth:sanctum')->group(function () {

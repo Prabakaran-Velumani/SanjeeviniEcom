@@ -34,8 +34,8 @@ class WishlistService
     {
         return $this->wishlistRepository->remove($id, $user_id);
     }
-    public function removeForAPI($id,$type, $user_id){
-        return $this->wishlistRepository->removeForAPI($id, $type, $user_id);
+    public function removeForAPI($id,$type, $seller_product_id, $user_id){
+        return $this->wishlistRepository->removeForAPI($id, $type, $seller_product_id, $user_id);
     }
 
     public function getCustomerWishlistForAPI($user_id){

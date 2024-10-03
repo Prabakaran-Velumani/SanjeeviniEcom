@@ -71,17 +71,22 @@
                 </div>
             @endisset
             @isset($color)
-                @if ($color != null && $color->id == 1)
-                    <div class="single_pro_categry">
+                @php  // Check if $color is a collection or a single object
+                    $isCollection = $color instanceof Illuminate\Database\Eloquent\Collection;
+                    $colorData = $isCollection ? json_decode(json_encode($color->first(), true)) : $color;
+                @endphp
+                @if ($colorData && ($colorData->id == 1 || $colorData->id == 2))
+                    <div class="single_pro_category">
                         <h4 class="font_18 f_w_700">
-                            {{ $color->name }}
+                            {{ $colorData->name }}
                         </h4>
                         <div class="color_filter">
-                            @foreach ($color->values as $k => $color_name)
-                                <div class="single_coulorFilter">
+                            @foreach ($colorData->values as $k => $color_name)
+                                <div class="single_colorFilter">
                                     <label class="round_checkbox d-flex" for="checkbox-{{$k}}">
-                                        <input id="checkbox-{{$k}}" name="color[]" id="color" type="checkbox" color="color" data-id="{{ $color->id }}" data-value="{{ $color_name->id }}" class="getProductByChoice" value="{{ $color_name->color->name }}"/>
+                                        <input id="checkbox-{{$k}}" name="color[]" type="checkbox" data-id="{{ $colorData->id }}" data-value="{{ $color_name->id }}" class="getProductByChoice" value="{{ $color_name->value }}"/>
                                         <span class="checkmark colors_{{$k}}"></span>
+                                        <span style='margin-left:10px'>{{ $color_name->value }}</span>
                                     </label>
                                 </div>
                             @endforeach
@@ -89,6 +94,7 @@
                     </div>
                 @endif
             @endisset
+         
             <div class="single_pro_categry">
                 <h4 class="font_18 f_w_700">
                 {{__('common.filter_by_rating')}}

@@ -417,9 +417,9 @@ class SupportTicketController extends Controller
                     'ticket_id' => $ticket_id,
                     'text'      => $request->input('text'),
                     'user_id' => auth()->user()->id,
-                    'type' => $request->type
+                    'type' => 1
                 ]);
-
+    
 
                 if ($request->hasFile('ticket_file')) {
 

@@ -738,7 +738,7 @@
                                         <tr>
                                             <td>{{getNumberTranslate($key + 1)}}</td>
                                             <td><a href="{{route('customer.show_details',$top_refferer->user_id)}}"
-                                                    target="_blank">{{ optional($top_refferer->user)->first_name ?? 'No User' }}</a></td>
+                                                    target="_blank">{{$top_refferer->user->first_name}}</a></td>
                                             <td>{{getNumberTranslate($top_refferer->total_used)}}</td>
                                         </tr>
                                         @endforeach

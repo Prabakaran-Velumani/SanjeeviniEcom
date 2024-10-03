@@ -90,4 +90,5 @@ return [
     'new_password' => "New Password",
     "update_business_info"=> "Update Business Info",
     "change_password"=> "Change Password",
+"gst"=>'GST',
 ];

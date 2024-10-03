@@ -7454,7 +7454,7 @@ tspan {
 }
 /* line 46, G:/laragon/www/CRM_frontend/Admin_crm/public/frontend/scss/_projects.scss */
 .dataTables_paginate a:hover {
-    background: linear-gradient(90deg, var(--gradient_1) 0.47%, var(--gradient_3) 100%) !important;
+    background:#00b3e1 !important;
     box-shadow: 0px 5px 10px rgba(108, 39, 255, 0.25) !important;
     border: 0 !important;
     color : var(--text_white) !important;
@@ -14373,7 +14373,7 @@ table.dataTable tbody tr {
 
 /* line 101, G:/laragon/www/CRM_frontend/Admin_crm/public/frontend/scss/_mini_sidebar.scss */
 #sidebar.sidebar.mini_sidebar #sidebar_menu > li.mm-active:hover > a {
-    background: var(--base_color);
+    background:#00b5e3;
 }
 
 /* line 104, G:/laragon/www/CRM_frontend/Admin_crm/public/frontend/scss/_mini_sidebar.scss */
@@ -14439,7 +14439,7 @@ table.dataTable tbody tr {
 
 /* line 157, G:/laragon/www/CRM_frontend/Admin_crm/public/frontend/scss/_mini_sidebar.scss */
 #sidebar.mini_sidebar ul li ul {
-    background: var(--base_color);
+    background: #203443;
     opacity: .9;
     position: absolute;
     left: 100%;
@@ -19152,11 +19152,11 @@ table.dataTable > tbody > tr.child span.dtr-data {
 }
 
 .daterangepicker .ranges li.active {
-    background-color: var(--gradient_2);
+    background-color: #00b5e3;
     color: #fff;
 }
 .daterangepicker td.active, .daterangepicker td.active:hover {
-    background-color: var(--gradient_2);
+    background-color:#00b5e3;
 }
 .cancelBtn,.applyBtn  {
     margin: 5px;

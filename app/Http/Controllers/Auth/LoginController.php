@@ -26,6 +26,7 @@ use Modules\SidebarManager\Entities\BackendmenuUser;
 use Modules\GeneralSetting\Entities\EmailTemplateType;
 use Modules\GeneralSetting\Entities\NotificationSetting;
 use Modules\GeneralSetting\Entities\UserNotificationSetting;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -100,11 +101,11 @@ class LoginController extends Controller
 
     public function adminLogin(Request $request){
         if (env('NOCAPTCHA_FOR_LOGIN') == "true" && app('theme')->folder_path == 'amazy') {
-            $request->validate([
-                'g-recaptcha-response' => 'required',
-            ],[
-                'g-recaptcha-response.required' => 'The google recaptcha field is required.',
-            ]);
+             $request->validate([
+                 'g-recaptcha-response' => 'required',
+             ],[
+                 'g-recaptcha-response.required' => 'The google recaptcha field is required.',
+             ]);
         }
 
         $user = null;

@@ -34,7 +34,7 @@ class FilterService
 
     public function filterProductAPI(array $data, $sort_by, $paginate_by)
     {
-        return $this->filterRepository->filterProductAPI($data, $sort_by, $paginate_by);
+        return $this->filterRepository->filterProductBlade($data, $sort_by, $paginate_by);
     }
 
     public function filterSortProductBlade(array $data, $session_data)

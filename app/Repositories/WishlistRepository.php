@@ -159,8 +159,8 @@ class WishlistRepository
         }
     }
 
-    public function removeForAPI($id, $type, $user_id){
-        $product =  Wishlist::where('user_id', $user_id)->where('seller_product_id', $id)->where('type', $type)->first();
+    public function removeForAPI($id, $type, $seller_product_id, $user_id){
+        $product =  Wishlist::where('user_id', $user_id)->where('id', $id)->where('seller_product_id', $seller_product_id)->where('type', $type)->first();
         if($product){
             $product->delete();
             return true;

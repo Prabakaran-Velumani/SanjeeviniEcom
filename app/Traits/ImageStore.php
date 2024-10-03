@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Log;
 trait ImageStore
 {
 
+public function testTrait()
+{
+    return "Trait is working!";
+}
+
 public static function saveImage($image, $height = null ,$lenght = null , $aspectration = true)
 {
 
@@ -220,6 +225,7 @@ public static function saveFlag($image, $name , $height = null ,$lenght = null)
 }
 public static function saveSettingsImage($image, $height = null ,$lenght = null)
 {
+Log::info("image =>" . json_encode($image));
     if(isset($image)){
         $current_date  = Carbon::now()->format('d-m-Y');
         $image_extention = str_replace('image/','',Image::make($image)->mime());

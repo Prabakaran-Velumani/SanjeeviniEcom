@@ -57,7 +57,7 @@
     white-space: normal;
     font-size: 14px;
     line-height: 21px;
-    color: #9e9c9c;
+    color:#303030;
 }
 .tag_link {
     display: inline-block; 
@@ -87,15 +87,15 @@
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg.png" alt="Image 1" loading="lazy">
+            <img src="public/frontend/amazy/img/wnecklace.webp" alt="wnecklace" width="350" height="280" loading="lazy">
                 <div class="content">
-                    <div class="discount">
+                  <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">15%</strong>
-                        <div class="discount-text">
+                        <!--<div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -109,15 +109,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg1.png" alt="Image 2"loading="lazy" >
+                <img src="public/frontend/amazy/img/imgg1.webp" alt="Gl"  width="350" height="280">
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">10%</strong>
-                        <div class="discount-text">
+                       <!--  <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -132,15 +132,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg2.png" alt="Image 3" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg2.webp" alt="Channapatna"  width="350" height="280">
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">35%</strong>
-                        <div class="discount-text">
+                       <!--  <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -155,15 +155,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg3.png" alt="Image 4" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg3.webp" alt="homemade" width="350" height="280" >
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">20%</strong>
-                        <div class="discount-text">
+                       <!--  <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -177,15 +177,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg4.png" alt="Image 5" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg4.webp" alt="banana-fiber" width="350" height="280" >
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">40%</strong>
-                        <div class="discount-text">
+                        <!-- <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -199,15 +199,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg5.png" alt="Image 6" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg5.webp" alt="Gift"  width="350" height="280">
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">20%</strong>
-                        <div class="discount-text">
+                      <!--   <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -221,15 +221,15 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg6.png" alt="Image 7" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg6.webp" alt="Tea" width="350" height="280" >
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">10%</strong>
-                        <div class="discount-text">
+                      <!--   <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
@@ -243,22 +243,22 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="image-box">
-                <img src="public/frontend/amazy/img/imgg7.png" alt="Image 8" loading="lazy">
+                <img src="public/frontend/amazy/img/imgg7.webp" alt="Buddha" width="350" height="280">
                 <div class="content">
                     <div class="discount">
                     <div class="discount-row">
                         <strong class="big-discount">10%</strong>
-                        <div class="discount-text">
+                       <!--  <div class="discount-text">
                             <span class="right-discount">Discount</span>
                             <span class="on-text">ON</span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="white-line"></div> 
                 </div>
                     <p class="texts">Buddha, Choth Handmade Painting</p>
-                    <a href="{{route('frontend.category-product',['slug' =>  ('gifting'), 'item' =>'category'])}}">
-  <button class="shop-buttons">Shop Now</button>
-</a>
+                    <a href="{{route('frontend.category-product',['slug' =>  ('paintings'), 'item' =>'category'])}}">
+                        <button class="shop-buttons">Shop Now</button>
+                    </a>
                 </div>
       
             </div>

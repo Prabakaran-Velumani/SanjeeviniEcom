@@ -1,16 +1,15 @@
 @extends('frontend.amazy.auth.layouts.app')
 @push('styles')
     <style>
-         
-        .amazy_login_area_right_inner{border: 1px solid white;
+       .amazy_login_area_right_inner{border: 1px solid white;
 box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     padding: 54px;
 }
-        
-    </style>
+      </style>
 @endpush
 @section('content')
 <div class="amazy_login_area">
+
     <div class="amazy_login_area_left d-flex align-items-center justify-content-center">
         <div class="amazy_login_form">
             <a href="{{url('/')}}" class="logo mb_50 d-block">

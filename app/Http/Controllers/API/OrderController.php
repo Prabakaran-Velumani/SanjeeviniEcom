@@ -99,10 +99,10 @@ class OrderController extends Controller
      * }
      */
 
-    public function allOrderList(Request $request){
+    public function allOrderList(Request $request, $customer_id){
 
         $orders = Order::with('customer', 'packages','address.getShippingCountry','address.getShippingState','address.getShippingCity','address.getBillingCountry','address.getBillingState','address.getBillingCity','packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product',
-        'packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard','packages.products.seller_product_sku.sku')->where('customer_id', $request->id)->latest()->get();
+        'packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard','packages.products.seller_product_sku.sku')->where('customer_id', $customer_id)->latest()->get();
 
         if(count($orders) > 0){
             return response()->json([
@@ -181,8 +181,9 @@ class OrderController extends Controller
      */
 
     public function PendingOrderList(Request $request){
-
-        $orders = Order::with('customer', 'packages','address.getShippingCountry','address.getShippingState','address.getShippingCity','address.getBillingCountry','address.getBillingState','address.getBillingCity','packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product','packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard', 'packages.products.seller_product_sku.sku')->where('customer_id', $request->user()->id)->where('is_confirmed', 0)->latest()->get();
+        //return $request;
+        $orders = Order::with('customer', 'packages','address.getShippingCountry','address.getShippingState','address.getShippingCity','address.getBillingCountry','address.getBillingState','address.getBillingCity','packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product',
+        'packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard', 'packages.products.seller_product_sku.sku')->where('customer_id', $request->user()->id)->where('is_paid', 0)->latest()->get();
         if(count($orders) > 0){
             return response()->json([
                 'orders' => $orders,
@@ -260,7 +261,10 @@ class OrderController extends Controller
     public function cancelOrderList(Request $request){
 
         $orders = Order::with('customer', 'packages','address.getShippingCountry','address.getShippingState','address.getShippingCity','address.getBillingCountry','address.getBillingState','address.getBillingCity',
-        'packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product','packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard', 'packages.products.seller_product_sku.sku')->where('customer_id', $request->user()->id)->where('is_cancelled', 1)->latest()->get();
+        'packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product','packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard', 'packages.products.seller_product_sku.sku')->where('customer_id', $request->user()->id)->where(function($query) {
+        $query->where('is_cancelled', 1)
+              ->orWhere('order_status', 3);
+    })  ->latest()->get();
         if(count($orders) > 0){
             return response()->json([
                 'orders' => $orders,
@@ -1388,8 +1392,12 @@ class OrderController extends Controller
        // $packages = $this->orderService->orderByDeliveryStatus($data, $request->user()->id);
         $packages = Order::with('customer', 'packages','address.getShippingCountry','address.getShippingState','address.getShippingCity','address.getBillingCountry','address.getBillingState','address.getBillingCity','packages.seller','packages.delivery_states', 'shipping_address','billing_address', 'packages.products','packages.products.seller_product_sku.product.product',
         'packages.products.seller_product_sku.product_variations.attribute','packages.products.seller_product_sku.product_variations.attribute_value.color','packages.products.giftCard','packages.products.seller_product_sku.sku')->where('customer_id', $request->user()->id)->whereHas('packages',function($query) use($data){
-            return $query->where('delivery_status',$data['status']);
-        })->latest()->get();
+            if ($data['status'] == 3){
+                return $query->where('delivery_status',$data['status'])->orWhere('is_cancelled', 1);
+            }else{
+                return $query->where('delivery_status',$data['status']);
+            }
+        })->latest()->get();        
         if(count($packages) > 0){
             return response()->json([
                 'orders' => $packages,
@@ -1397,8 +1405,10 @@ class OrderController extends Controller
             ],200);
         }else{
             return response()->json([
-                'message' => 'package not found'
-            ],404);
+                "data" => [],
+                "message" => 'order not found'
+
+            ],500);
         }
     }
 
