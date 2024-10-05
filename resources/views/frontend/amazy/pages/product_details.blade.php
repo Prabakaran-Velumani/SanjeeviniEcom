@@ -282,7 +282,7 @@
                                     <input type="hidden" id="owner" value="{{encrypt($product->user_id)}}">
                                     <input type="hidden" name="stock_manage_status" id="stock_manage_status" value="{{$product->stock_manage}}">
                                     <p class=
-                                    
+
                                     "pro_details_text">
                                         <span class="text-uppercase">{{__('common.tag')}}:</span>
                                         @php
@@ -680,6 +680,36 @@
             </div>
         </div>
     </div>
+    @if ($product->product->video_link)
+        <div class="product_details_dec mb_76">
+            <div class="product_details_dec_header">
+                <h4 class="font_20 f_w_400 m-0 ">{{__('defaultTheme.video')}}</h4>
+            </div>
+            <div class="product_details_dec_body">
+                <div class="product_details">
+                    @if ($product->product->video_provider == 'youtube')
+                        @php
+                            $link = str_replace('watch?v=','embed/',$product->product->video_link);
+                        @endphp
+                        <iframe src="{{ $link }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    @endif
+                    @if ($product->product->video_provider == 'daily_motion')
+                        @php
+                            if(strpos($product->product->video_link, 'dai.ly') != false){
+                                $link = str_replace('https://dai.ly/','https://www.dailymotion.com/embed/video/',$product->product->video_link);
+                            }else{
+                                $link = str_replace('https://www.dailymotion.com/video/','https://www.dailymotion.com/embed/video/',$product->product->video_link);
+                            }
+                        @endphp
+                        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+                            <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html"
+                            src="{{$link}}" width="100%" height="100%" allowfullscreen allow="autoplay"> </iframe>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 
 
@@ -908,7 +938,7 @@
                                         @if($pickup_locations)
                                         @foreach($pickup_locations as $pickup_location)
                                              <option value="{{$pickup_location->id}}"
-                                             {{$pickup_location->is_default?'selected':''}} 
+                                             {{$pickup_location->is_default?'selected':''}}
                                                 >{{$pickup_location->address}}</option>
                                         @endforeach
                                         @endif
@@ -932,7 +962,7 @@
                                     <h4 class="font_16 f_w_700 mb_6">{{__('amazy.warehouse location')}}</h4>
                                     <p class="delivery_text font_14 f_w_400 mb-0" id="warehouse"></p>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </div> --}}
                     <div class="amazcart_delivery_wiz mb_20">
