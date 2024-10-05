@@ -517,11 +517,16 @@ class ProductController extends Controller
     {
         try {
             $product = $this->productService->findById($request->id);
+            Log::info('product =>',[$product]);
             $product->update([
                 'status' => $request->status
             ]);
+            Log::info(!isModuleActive('MultiVendor'));
             if (!isModuleActive('MultiVendor')) {
-                $product->sellerProducts->where('user_id', 1)->first()->update([
+                // $product->sellerProducts->where('user_id', 1)->first()->update([
+                //     'status' => $request->status
+                // ]);
+                $product->sellerProducts->where('user_id', $product->seller_id)->first()->update([
                     'status' => $request->status
                 ]);
             }

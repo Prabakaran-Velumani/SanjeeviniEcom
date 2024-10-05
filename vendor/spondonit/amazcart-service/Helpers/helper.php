@@ -1,11 +1,11 @@
 <?php
-
+use Illuminate\Support\Facades\Log;
 if (!function_exists('isModuleActive')) {
     function isModuleActive($module)
     {
         try {
             $haveModule = app('ModuleList')->where('name', $module)->first();
-
+            Log::info($haveModule);
             $is_module_available = 'Modules/' . $module . '/Providers/' . $module . 'ServiceProvider.php';
 
             if (file_exists($is_module_available)) {
@@ -17,6 +17,7 @@ if (!function_exists('isModuleActive')) {
                 }
 
                 if ($haveModule) {
+                   
                     if (!empty($haveModule->purchase_code)) {
                         return true;
                     }
@@ -26,7 +27,7 @@ if (!function_exists('isModuleActive')) {
             }
             return false;
         } catch (\Throwable $th) {
-
+            Log::info('$haveModule');
             return false;
         }
 

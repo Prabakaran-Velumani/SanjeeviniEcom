@@ -52,21 +52,28 @@
                     if($key > 0 ){
                         $attribute_id .= '-'.str_replace(' ', '', $attribute[$key]);
                         $str_id .= '-'.str_replace(' ', '', $items);
-                        $str .= '-'.str_replace(' ', '', $item);
-                        $sku .='-'.str_replace(' ', '', $item);
+                        $str .= '-'.str_replace('', '', $item);
+                        $sku .='-'.str_replace('', '', $item);
                     }else {
                         $attribute_id .= str_replace(' ', '', $attribute[$key]);
                         $str_id .= str_replace(' ', '', $items);
-                        $str .= str_replace(' ', '', $item);
-                        $sku .= '-'.str_replace(' ', '', $item);
+                        $str .= str_replace('', '', $item);
+                        $sku .= '-'.str_replace('', '', $item);
                     }
                 }
                 $valIncre +=$valIncre;
                 $imgIncrement += 1;
+                // echo $sku;
                 $query_1 = @$product->skus->where('sku', $sku)->first();
                 $sku_row = @$product->skus->filter(function ($skuItem) use ($sku) {
+                    echo ", skuitem=>".$skuItem->sku;
+                    echo ", sku=>".$sku;
+                    echo ", check true or false =>".$sku == $skuItem->sku;
                     return stripos($skuItem->sku, $sku) !== false; // Case-insensitive like
                 })->first();
+                // echo @$product->skus;
+                // exit;
+                // echo $sku_row;
                 if(isModuleActive('WholeSale')){
                     $sellerProductInfo = \Modules\Seller\Entities\SellerProduct::where('product_id', @$product->id)->first();
                     $sellerProductSKU = \Modules\Seller\Entities\SellerProductSKU::where('product_id', @$sellerProductInfo->id)->where('product_sku_id', @$query_1->id)->first();

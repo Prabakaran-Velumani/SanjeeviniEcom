@@ -281,9 +281,6 @@
                                                     <small>({{ @$order_package->delivery_process->name }})</small>
                                                 @endif
                                             </h3>
-                                            @php
-                                            echo $order_package;
-                                            @endphp
                                             @if(isModuleActive('MultiVendor'))
 
                                             <ul class="d-flex float-right">

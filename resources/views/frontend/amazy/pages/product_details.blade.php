@@ -297,9 +297,10 @@
 
                                 @if($product->product->product_type == 2 && session()->get('item_details') != '')
                                     @foreach (session()->get('item_details') as $key => $item)
+                                    <input type="hidden" name="attribute_selected_data" id="attribute_selected_data" value="">
                                         @if ($item['attr_id'] === 1)
                                             <div class="product_color_varient mb_20">
-                                                <h5 class="font_14 f_w_500 theme_text3  text-capitalize d-block mb_10" id="color_name">{{ $item['name'] }}: {{$item['value'][0]}} </h5>
+                                                <h5 class="font_14 f_w_500 theme_text3  text-capitalize d-block mb_10" id="color_name">{{ $item['name'] }}:  <span id="color_name_val">{{$item['value'][0]}}</span></h5>
                                                 <div class="color_List d-flex gap_5 flex-wrap">
                                                     <input type="hidden" class="attr_value_name" name="attr_val_name[]" value="{{$item['value'][0]}}">
                                                     <input type="hidden" class="attr_value_id" name="attr_val_id[]" value="{{$item['id'][0]}}-{{$item['attr_id']}}">
@@ -316,7 +317,7 @@
                                         @endif
                                         @if ($item['attr_id'] != 1)
                                             <div class="product_color_varient mb_20">
-                                                <h5 class="font_14 f_w_500 theme_text3  text-capitalize d-block mb_10" id="size_name{{$key}}">{{$item['name']}}: {{$item['value'][0]}}</h5>
+                                                <h5 class="font_14 f_w_500 theme_text3  text-capitalize d-block mb_10" id="size_name{{$key}}">{{$item['name']}}:<span id="size_name_val">{{$item['value'][0]}}</span></h5>
                                                 <div class="color_List d-flex gap_5 flex-wrap">
                                                     <input type="hidden" class="attr_value_name" data-name="{{ $item['name'] }}" name="attr_val_name[]" value="{{$item['value'][0]}}">
                                                     <input type="hidden" class="attr_value_id" name="attr_val_id[]" value="{{$item['id'][0]}}-{{$item['attr_id']}}">
@@ -872,7 +873,7 @@
                             </div>
                         </div>
                     @endif
-                    <div class="amazcart_delivery_wiz mb_20">
+                    {{-- <div class="amazcart_delivery_wiz mb_20">
                         <div class="amazcart_delivery_wiz_head">
                             <h4 class="font_18 f_w_700 m-0">{{__('common.choose_your_location')}}</h4>
                         </div>
@@ -907,7 +908,7 @@
                                         @if($pickup_locations)
                                         @foreach($pickup_locations as $pickup_location)
                                              <option value="{{$pickup_location->id}}"
-                                              {{--  {{$pickup_location->is_default?'selected':''}} --}}
+                                             {{$pickup_location->is_default?'selected':''}} 
                                                 >{{$pickup_location->address}}</option>
                                         @endforeach
                                         @endif
@@ -923,7 +924,7 @@
                                     <p class="delivery_text font_14 f_w_400" id="door_delivery"></p>
                                 </div>
                             </div>
-                            <!-- <div class="amazcart_delivery_wiz_sep d-flex gap_15 ">
+                            <div class="amazcart_delivery_wiz_sep d-flex gap_15 ">
                                 <div class="icon d-flex align-items-center justify-content-center ">
                                     <img src="{{url('/')}}/public/frontend/amazy/img/product_details/details_pickup.svg" alt="{{__('amazy.warehouse location')}}" title="{{__('amazy.warehouse location')}}">
                                 </div>
@@ -931,9 +932,9 @@
                                     <h4 class="font_16 f_w_700 mb_6">{{__('amazy.warehouse location')}}</h4>
                                     <p class="delivery_text font_14 f_w_400 mb-0" id="warehouse"></p>
                                 </div>
-                            </div> -->
+                            </div> 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="amazcart_delivery_wiz mb_20">
                         <div class="amazcart_delivery_wiz_body">
                             <div class="amazcart_delivery_wiz_sep d-flex gap_15 mb_10">
@@ -1010,7 +1011,7 @@
                                     @endphp
                                     @php
                                         $review  = 1;
-                                         if( $total_review > 0 && review_count > 0){
+                                         if( $total_review > 0 && $review_count > 0){
                                             $review = round($total_review /$review_count,0);
                                          }
 
@@ -1347,6 +1348,13 @@
                     $(this).closest('.color_List').find('.not_111').removeClass('selected_btn');
                 }
                 $(this).addClass('selected_btn');
+                 // Debugging logs
+                 let Data = {
+                    name: $(this).attr('data-name'),
+                    attr_id: $(this).attr('data-value-key'),
+                    attr_val_id: $(this).attr('data-value'),
+                }
+                $('#attribute_selected_data').val(JSON.stringify(Data));
                 get_price_accordint_to_sku();
 
             });
@@ -1699,9 +1707,11 @@
                 $('#final_price').val(value);
             }
             function get_price_accordint_to_sku(){
+
                 var value = $("input[name='attr_val_name[]']").map(function(){return $(this).val();}).get();
                 var id = $("input[name='attr_val_id[]']").map(function(){return $(this).val();}).get();
                 var product_id = $("#product_id").val();
+                var attribute_selected_data = JSON.parse($("#attribute_selected_data").val());
                 var user_id = $('#seller_id').val();
                 $('#pre-loader').show();
                 $.post("{{ route('seller.get_seller_product_sku_wise_price') }}", {_token:'{{ csrf_token() }}', id:id, product_id:product_id, user_id:user_id}, function(response){
@@ -1759,27 +1769,25 @@
                         @endif
                     }
                     $(response.data.product.variantDetails).each(function( key,index ) {
-                        if(response.data.product.variantDetails.length > 1){
-                            $.each(color, function(i, v) {
-                                var isLastElement = i == color.length -1;
-                                if (isLastElement) {
-                                    $('#color_name').text(index.name +': ' + v);
-                                }else{
-                                    $('#size_name'+key).text(index.name +': ' + color[key+1]);
+                        $.each(id,function(i,idValue)
+                        {
+                            var color = idValue.split('-');
+                            if(color[1] == 1)
+                            {
+                                const find_attribute_index = index.attr_val_id.findIndex((id) => id == color[0]);
+                                if (find_attribute_index !== -1) {
+                                const selected_name = index.value[find_attribute_index];
+                                $('#color_name').text(index.name +': ' + selected_name);
                                 }
-                            });
-                            @if(!empty($public_code))
-                                changeTabbyAmount();
-                            @endif
-                        }else{
-                            if (index.attr_id == 1) {
-                                $('#color_name').text(index.name +': ' + color[1]);
-                            }else if (index.attr_id == 2) {
-                                $('#size_name').text(index.name +': ' + color[1] + '-'+ color[2]);
-                            }else{
-                                $('#size_name').text(index.name +': ' + color[1]);
                             }
-                        }
+                            else{
+                                const find_attribute_index = index.attr_val_id.findIndex((id) => id == color[0]);
+                                if (find_attribute_index !== -1) {
+                                const selected_name = index.value[find_attribute_index];
+                                $('#size_name'+i).text(index.name +': ' + selected_name);
+                                }
+                            }
+                        });
                     });
                         $('#product_sku_id').val(response.data.id);
                         if (response.data.product_stock == 0) {
@@ -1955,38 +1963,38 @@
                 });
             });
             $(document).on('change', '#selectPickup', function (event){
-                getPickupInfo();
+                // getPickupInfo();
             });
-            getPickupInfo();
-            function getPickupInfo(){
-                let pickup_id = $('#selectPickup').val();
-                let data = {
-                    pickup_id : pickup_id,
-                    _token : "{{csrf_token()}}",
-                    seller_id: "{{$product->seller->id}}"
-                }
-                $('#pre-loader').show();
-                $.post("{{route('frontend.item.get_pickup_info')}}",data,function(response){
-                    if (response.shipping != null) {
-                        if(response.shipping.cost == 0){
-                            $('#door_delivery').text(`
-                                ${trans('amazy.free_shipping_note')} ${response.shipping.shipment_time}.
-                            `);
-                        }else{
-                            $('#door_delivery').text(`
-                                ${trans('amazy.shipping_note')} ${currency_format(response.shipping.cost)}. ${trans('amazy.Delivery within')} ${response.shipping.shipment_time}.
-                            `);
-                        }
-                    }
-                    if (response.pickup_location != null) {
-                        $('#warehouse').text(`
-                          ${response.pickup_location.address}.
-                            {{__('common.country')}}: ${response.pickup_location.country.name} {{__('common.state')}}: ${response.pickup_location.state.name} {{__('common.city')}}: ${response.pickup_location.city.name} {{__('common.postcode')}}: ${response.pickup_location.pin_code}
-                        `);
-                    }
-                    $('#pre-loader').hide();
-                });
-            }
+            // getPickupInfo();
+            // function getPickupInfo(){
+            //     let pickup_id = $('#selectPickup').val();
+            //     let data = {
+            //         pickup_id : pickup_id,
+            //         _token : "{{csrf_token()}}",
+            //         seller_id: "{{$product->seller->id}}"
+            //     }
+            //     $('#pre-loader').show();
+            //     $.post("{{route('frontend.item.get_pickup_info')}}",data,function(response){
+            //         if (response.shipping != null) {
+            //             if(response.shipping.cost == 0){
+            //                 $('#door_delivery').text(`
+            //                     ${trans('amazy.free_shipping_note')} ${response.shipping.shipment_time}.
+            //                 `);
+            //             }else{
+            //                 $('#door_delivery').text(`
+            //                     ${trans('amazy.shipping_note')} ${currency_format(response.shipping.cost)}. ${trans('amazy.Delivery within')} ${response.shipping.shipment_time}.
+            //                 `);
+            //             }
+            //         }
+            //         if (response.pickup_location != null) {
+            //             $('#warehouse').text(`
+            //               ${response.pickup_location.address}.
+            //                 {{__('common.country')}}: ${response.pickup_location.country.name} {{__('common.state')}}: ${response.pickup_location.state.name} {{__('common.city')}}: ${response.pickup_location.city.name} {{__('common.postcode')}}: ${response.pickup_location.pin_code}
+            //             `);
+            //         }
+            //         $('#pre-loader').hide();
+            //     });
+            // }
             $(document).on("click", ".buy_now_btn", function(event){
                 event.preventDefault();
                 buyNow($('#product_sku_id').val(),$('#seller_id').val(),$('#qty').data('value'),$('#base_sku_price').val().trim(),$('#shipping_type').val(),'product', $('#owner').val());

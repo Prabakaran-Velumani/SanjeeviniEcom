@@ -531,6 +531,7 @@ class ProductRepository
                 $lang = auth()->user()->lang_code;
                 $productSlug = $this->productSlug($product_name->$lang);
                 $sellerProduct = $product->sellerProducts->where('user_id', 1)->first();
+
                 $sellerProduct->product_name = $productName;
                 $sellerProduct->tax = $product->tax ?? 0;
                 $sellerProduct->tax_type = $product->tax_type;
@@ -549,7 +550,7 @@ class ProductRepository
                 $length = count($product->sellerProducts);
                 if(isset($product->sellerProducts) && $length > 0){
                     
-                    $product->sellerProducts->where('user_id', 1)->first()->update([
+                    $product->sellerProducts->where('user_id', 1)->where('product_id',$product->id)->first()->update([
                         'product_name' => $product->product_name,
                         'status' => 1,
                         'discount' => $product->discount,

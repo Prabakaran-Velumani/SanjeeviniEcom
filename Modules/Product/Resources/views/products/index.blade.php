@@ -66,11 +66,11 @@
                                     <div class="box_header common_table_header ">
                                         <div class="main-title d-md-flex">
                                             <h3 class="mb-0 mr-30 mb_xs_15px mb_sm_20px">{{ __('product.product_list') }}</h3>
-                                            @if (permissionCheck('product.create'))
+                                            {{-- @if (permissionCheck('product.create'))
                                                 <ul class="d-flex">
                                                     <li><a class="primary-btn radius_30px mr-10 fix-gr-bg" href="{{route("product.create")}}"><i class="ti-plus"></i>{{__('product.add_new_product')}}</a></li>
                                                 </ul>
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </div>
                                     <div class="QA_section QA_section_heading_custom check_box_table">
