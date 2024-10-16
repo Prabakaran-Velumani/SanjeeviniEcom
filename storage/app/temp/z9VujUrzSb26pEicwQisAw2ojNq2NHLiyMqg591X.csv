@@ -1,0 +1,3 @@
+id,product_name,unit_type_id,brand_id,is_physical,category_id,model_number,shipping_cost,discount_type,discount,tax_type,tax,description,specification,minimum_order_qty,meta_title,meta_description,slug,tags,sku,selling_price,additional_shipping,media_ids
+1,Artisan Crafted Grass Storage Container with Secure Lid,1,2,1,"2, 1",REWS,30,1,24,1,50,DES,SPEC,1,,,dsd,home décor,SMCHK-HL-HD-002,300,20,1873
+2,,,,,,,,,,,,,,,,,,,,,,

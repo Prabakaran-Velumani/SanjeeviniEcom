@@ -1,0 +1,190 @@
+
+.demo_wait {
+    margin-left: 35%;
+}
+.mb_5{
+    margin-bottom: 5px;
+}
+/*.white-box.single-summery:hover, .white-box.single-summery.active {*/
+/*  background: url(../../img/summery-bg1.png) no-repeat center;*/
+/*  box-shadow: 0px 10px 30px rgba(108, 39, 255, 0.3);*/
+/*  background-size: 100% 100%;*/
+/*}*/
+
+
+
+
+
+
+/* Different colors for each box */
+.row .col-xl-3:nth-of-type(1) .white-box.single-summery {
+    background-color: #2ecc71; 
+    
+}
+
+.row .col-xl-3:nth-of-type(2) .white-box.single-summery {
+    background-color:#23b7e5; 
+}
+
+.row .col-xl-3:nth-of-type(3) .white-box.single-summery {
+    background-color: #f39c12; 
+}
+
+.row .col-xl-3:nth-of-type(4) .white-box.single-summery {
+    background-color: #e74c3c; 
+}
+
+
+.row .col-xl-3:nth-of-type(n+5) .white-box.single-summery {
+    background-color: #007bff; /* Bright Blue */
+}
+
+.row .col-xl-3:nth-of-type(n+6) .white-box.single-summery {
+    background-color: #ff5733; /* Vivid Orange */
+}
+
+.row .col-xl-3:nth-of-type(n+7) .white-box.single-summery {
+    background-color: #28a745; /* Bright Green */
+}
+
+.row .col-xl-3:nth-of-type(n+8) .white-box.single-summery {
+    background-color: #dc3545; /* Strong Red */
+}
+
+.row .col-xl-3:nth-of-type(n+9) .white-box.single-summery {
+    background-color: #6610f2; /* Deep Purple */
+}
+
+.row .col-xl-3:nth-of-type(n+10) .white-box.single-summery {
+    background-color: #fd7e14; /* Vivid Orange */
+}
+.row .col-xl-3:nth-of-type(11) .white-box.single-summery {
+    background-color: #17a2b8; /* Teal */
+}
+
+.row .col-xl-3:nth-of-type(12) .white-box.single-summery {
+    background-color: #ffc107; /* Amber */
+}
+
+
+
+
+.row .col-xl-3:nth-of-type(1) .white-box.single-summery:hover {
+   outline: 1px solid #2ecc71; 
+   
+}
+
+
+.row .col-xl-3:nth-of-type(2) .white-box.single-summery:hover {
+    outline: 1px solid #23b7e5;
+}
+
+
+.row .col-xl-3:nth-of-type(3) .white-box.single-summery:hover {
+   outline: 1px solid #f39c12;
+}
+
+
+.row .col-xl-3:nth-of-type(4) .white-box.single-summery:hover {
+   outline: 1px solid #e74c3c;
+}
+
+
+.row .col-xl-3:nth-of-type(5) .white-box.single-summery:hover {
+   outline: 1px solid #007bff;
+}
+
+
+.row .col-xl-3:nth-of-type(6) .white-box.single-summery:hover {
+  outline: 1px solid #ff5733;
+}
+
+
+.row .col-xl-3:nth-of-type(7) .white-box.single-summery:hover {
+   outline: 1px solid #28a745;
+}
+
+
+.row .col-xl-3:nth-of-type(8) .white-box.single-summery:hover {
+   outline: 1px solid #dc3545;
+}
+
+
+.row .col-xl-3:nth-of-type(9) .white-box.single-summery:hover {
+   outline: 1px solid #6610f2;
+}
+
+
+.row .col-xl-3:nth-of-type(10) .white-box.single-summery:hover {
+ outline: 1px solid #fd7e14;
+}
+
+
+.row .col-xl-3:nth-of-type(11) .white-box.single-summery:hover {
+    outline: 1px solid #17a2b8;
+}
+
+
+.row .col-xl-3:nth-of-type(12) .white-box.single-summery:hover {
+ outline: 1px solid #ffc107;
+}
+
+
+
+
+
+
+
+
+
+
+.white-box.single-summery.bg_active {
+background: url(../../img/summery-bg1.png) no-repeat center;
+  box-shadow: 0px 10px 30px rgba(108, 39, 255, 0.3);
+  background-size: 100% 100%;
+}
+
+.white-box.single-summery.bg_active::after,
+.white-box.single-summery.bg_active::before{
+  display: none;
+}
+
+.white-box.single-summery.bg_active:hover:after,
+.white-box.single-summery.bg_active:hover:before{
+  display: block;
+}
+
+.white-box.single-summery.bg_active h3,
+.white-box.single-summery.bg_active h1,
+.white-box.single-summery.bg_active p{
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.single-summery.active:hover {
+  background: none !important;
+  background-color:#f8f8f8 !important;
+  box-shadow: 0 0 0 !important;
+  /*border:1px solid black;*/
+}
+
+.single-summery.active:hover::before,.single-summery.active:hover:after {
+  display: none;
+}
+
+.single-summery.active:hover h3 {
+ color: #415094 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.single-summery.active:hover h1 {
+    background: -webkit-linear-gradient(90deg, #7c32ff 0%, #c738d8 100%) !important;
+    background: -moz-linear-gradient(90deg, #7c32ff 0%, #c738d8 100%) !important;
+    background: -o-linear-gradient(90deg, #7c32ff 0%, #c738d8 100%) !important;
+    background: linear-gradient(90deg, #415094 0%, #415094 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+.white-box.single-summery.active h3, .white-box.single-summery.active p, .white-box.single-summery.active h1 {
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+}

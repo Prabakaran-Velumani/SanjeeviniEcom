@@ -1,0 +1,2 @@
+id,product_name,unit_type_id,brand_id,is_physical,category_id,model_number,shipping_cost,discount_type,discount,tax_type,tax,description,specification,minimum_order_qty,meta_title,meta_description,slug,tags,sku,selling_price,additional_shipping,media_ids
+1,Handcrafted Banana Fiber Spacious Sling Bag For Women To Suit Your Style,1,2,1,"1,12,18",REWS,50,1,50,1,50,DES,SPEC,1,,,suit_bag,200,SM-067,299,20,1596
