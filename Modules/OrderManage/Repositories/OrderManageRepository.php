@@ -172,7 +172,16 @@ class OrderManageRepository
         }else{
             if ($order->is_confirmed == 1 && $data['is_confirmed'] == 1) {
                 foreach ($order->packages as $key => $package) {
-                    $this->updateStock($package);
+
+                    /** To skip stock update during order placement. it will be handled when product is checkout from warehouse 
+                    * commented on 17-10-2024
+                    * 
+                     $this->updateStock($package);
+                    *
+                    * comment ends here
+                    */
+
+
                     $package->update([
                         'delivery_status' => 5
                     ]);
@@ -585,7 +594,13 @@ class OrderManageRepository
                 $package->update([
                     'delivery_status' => 2
                 ]);
-                $this->updateStock($package);
+                /** To skip stock update during order placement. it will be handled when product is checkout from warehouse 
+                 * commented on 17-10-2024
+                 * 
+                 $this->updateStock($package);
+                 *
+                 * comment ends here
+                */
             }
             return 'done';
         }else{

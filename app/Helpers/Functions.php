@@ -373,11 +373,24 @@ if (!function_exists('sellerWiseShippingConfig')) {
 
 if (!function_exists('singleProductURL')) {
     function singleProductURL($seller = null, $product=null){
+        // if(isModuleActive('MultiVendor')){
+        //     return route('frontend.item.show',[$seller,$product]);
+        // }else{
+        //     return route('frontend.item.show',$product);
+        // }
+
         if(isModuleActive('MultiVendor')){
-            return route('frontend.item.show',[$seller,$product]);
+            if($seller == null)
+            {
+                return route('frontend.item.show',$product);
+            }
+            else{
+                return route('frontend.item.show',[$seller,$product]);
+            }
+                // 
         }else{
-            return route('frontend.item.show',$product);
-        }
+                return route('frontend.item.show',$product);
+            }
     }
 }
 if (!function_exists('pickupLocationData')) {

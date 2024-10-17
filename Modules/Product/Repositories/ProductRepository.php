@@ -513,7 +513,7 @@ class ProductRepository
                 }
                 $lang = auth()->user()->lang_code;
                 $productSlug = $this->productSlug($product_name->$lang);
-                $sellerProduct = $product->sellerProducts->where('user_id', $product->seller_id)->where('product_id',$product->id)->first();
+                $sellerProduct = $product->sellerProducts->where('user_id', 1)->where('product_id',$product->id)->first();
                 if($sellerProduct)
                 {
                     $sellerProduct->update([
@@ -531,7 +531,7 @@ class ProductRepository
                 }
                 else
                 {
-                    $sellerProduct_new = $product->sellerProducts->where('user_id', $product->seller_id)->first();
+                    $sellerProduct_new = $product->sellerProducts->where('user_id', 1)->first();
                     $sellerProduct_new->product_name = $productName;
                     $sellerProduct_new->tax = $product->tax ?? 0;
                     $sellerProduct_new->tax_type = $product->tax_type;
@@ -552,7 +552,7 @@ class ProductRepository
                 $length = count($product->sellerProducts);
                 if(isset($product->sellerProducts) && $length > 0){
                     
-                    $product->sellerProducts->where('user_id', $product->seller_id)->where('product_id',$product->id)->first()->update([
+                    $product->sellerProducts->where('user_id', 1)->where('product_id',$product->id)->first()->update([
                         'product_name' => $product->product_name,
                         'status' => 1,
                         'discount' => $product->discount,
@@ -608,10 +608,10 @@ class ProductRepository
             $product_sku->breadth = isset($data['breadth'])?$data['breadth']:0;
             $product_sku->height = isset($data['height'])?$data['height']:0;
             $product_sku->selling_price = $data['selling_price'];
-            $product_sku->product_stock = isset($data['single_stock'])?$data['single_stock']:0;
+            // $product_sku->product_stock = isset($data['single_stock'])?$data['single_stock']:0;
             $product_sku->additional_shipping = isset($data['additional_shipping']) ? $data['additional_shipping'] : 0;
             $product_sku->status = $data['status'];
-            $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
+            // $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
             $product_sku->save();
             if (isModuleActive('WholeSale') ){
                 //add/update Whole-sale price
@@ -648,12 +648,12 @@ class ProductRepository
                 }
             }
             if (!isModuleActive('MultiVendor')) {
-                $front_sku = $product->sellerProducts->where('user_id', $product->seller_id)->first()->skus->first();
+                $front_sku = $product->sellerProducts->where('user_id', 1)->first()->skus->first();
                 if($front_sku){
                     $front_sku->update([
-                        'cost_price' => isset($data['cost_price']) ?$data['cost_price'] : 0,
+                        // 'cost_price' => isset($data['cost_price']) ?$data['cost_price'] : 0,
                         'selling_price' => $data['selling_price'],
-                        'product_stock' => isset($data['single_stock'])?$data['single_stock']:0
+                        // 'product_stock' => isset($data['single_stock'])?$data['single_stock']:0
                     ]);
                     $front_sku->product->update([
                         'min_sell_price' => $data['selling_price'],
@@ -751,7 +751,7 @@ class ProductRepository
                                 }
                             }
                         }
-                        $product_sku->product_stock = $stock;
+                        // $product_sku->product_stock = $stock;
                         $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                         $product_sku->save();
                         if (isset($data['variant_image_' . $image_increment])) {
@@ -763,17 +763,17 @@ class ProductRepository
                             ]);
                         }
                         if(!isModuleActive("MultiVendor")){
-                            $sellerProduct = $product->sellerProducts->where('user_id', $product->seller_id)->first();
+                            $sellerProduct = $product->sellerProducts->where('user_id', 1)->first();
                             if($sellerProduct){
                                 SellerProductSKU::create([
                                     'product_id' => $sellerProduct->id,
                                     'product_sku_id' => $product_sku->id,
-                                    'product_stock' => $product_sku->product_stock,
+                                    // 'product_stock' => $product_sku->product_stock,
                                     'selling_price' => $product_sku->selling_price,
-                                    'seller_price' => $product_sku->seller_price,
-                                    'cost_price' =>isset($product_sku->cost_price) ?$product_sku->cost_price : 0,
+                                    // 'seller_price' => $product_sku->seller_price,
+                                    // 'cost_price' =>isset($product_sku->cost_price) ?$product_sku->cost_price : 0,
                                     'status' => 1,
-                                    'user_id' => $product->seller_id
+                                    'user_id' => 1
                                 ]);
                             }
                         }
@@ -844,11 +844,11 @@ class ProductRepository
                                 }
                             }
                         }
-                        $sku_exist->product_stock = $stock;
+                        // $sku_exist->product_stock = $stock;
                         $sku_exist->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                         $sku_exist->save();
                         if (!isModuleActive('MultiVendor')) {
-                            $front_sku = $product->sellerProducts->where('user_id', $product->seller_id)->first()->skus->where('product_sku_id', $sku_exist->id)->first();
+                            $front_sku = $product->sellerProducts->where('user_id', 1)->first()->skus->where('product_sku_id', $sku_exist->id)->first();
                             //add/update Whole-sale price
                             $sellerProductSKU = SellerProductSKU::where('product_sku_id', $sku_exist->id)->first();
                             if (isModuleActive('WholeSale') && isset($data['wholesale_min_qty_v_'.$key])){
@@ -885,9 +885,9 @@ class ProductRepository
                             }
                             if($front_sku){
                                 $front_sku->update([
-                                    'product_stock' => $sku_exist->product_stock,
+                                    // 'product_stock' => $sku_exist->product_stock,
                                     'selling_price' => $sku_exist->selling_price,
-                                    'cost_price' => $sku_exist->cost_price
+                                    // 'cost_price' => $sku_exist->cost_price
                                 ]);
                                 if(isModuleActive('GoldPrice') && $data['auto_update_required']){
                                     if(@$front_sku->product->hasDeal){
@@ -949,7 +949,7 @@ class ProductRepository
                 ProductSku::destroy($old_sku_ids);
                 $product_variations = $product->variations->pluck('id');
                 ProductVariations::destroy($product_variations);
-                $sellerProduct = $product->sellerProducts->where('user_id', $product->seller_id)->first();
+                $sellerProduct = $product->sellerProducts->where('user_id', 1)->first();
                 if($sellerProduct){
                     $old_frontend_sku = $sellerProduct->skus->pluck('id');
                     SellerProductSKU::destroy($old_frontend_sku);
@@ -999,8 +999,8 @@ class ProductRepository
                             }
                         }
                     }
-                    $product_sku->product_stock = $stock;
-                    $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
+                    // $product_sku->product_stock = $stock;
+                    // $product_sku->cost_price = isset($data['cost_price']) ?$data['cost_price'] : 0;
                     $product_sku->save();
                     if (isset($data['variant_image_' . $image_increment])) {
                         UsedMedia::create([
@@ -1014,11 +1014,11 @@ class ProductRepository
                         $sellerProductSKU = SellerProductSKU::create([
                             'product_id' => $sellerProduct->id,
                             'product_sku_id' => $product_sku->id,
-                            'product_stock' => $product_sku->product_stock,
+                            // 'product_stock' => $product_sku->product_stock,
                             'selling_price' => $product_sku->selling_price,
-                            'cost_price' => $product_sku->cost_price,
+                            // 'cost_price' => $product_sku->cost_price,
                             'status' => 1,
-                            'user_id' => $product->seller_id
+                            'user_id' => 1
                         ]);
                         //add Whole-sale price
                         if (isModuleActive('WholeSale') && isset($data['wholesale_min_qty_v_'.$key])){
@@ -1128,7 +1128,7 @@ class ProductRepository
             }
         }
         if (!isModuleActive('MultiVendor')) {
-            $frontend_product = $product->sellerProducts->where('user_id',$product->seller_id)->first();
+            $frontend_product = $product->sellerProducts->where('user_id',1)->first();
             $min_price = $frontend_product->skus->min('selling_price');
             $max_price = $frontend_product->skus->max('selling_price');
             $frontend_product->update([
@@ -1275,7 +1275,7 @@ class ProductRepository
             $productSubtitle_1 = $product->subtitle_1;
             $productSubtitle_2 = $product->subtitle_2;
         }
-        $sellerProduct = SellerProduct::where('user_id', $product->seller_id)->where('product_id',$product->id)->first();
+        $sellerProduct = SellerProduct::where('user_id', 1)->where('product_id',$product->id)->first();
 
 // Check if the seller product exists before trying to update
         if ($sellerProduct) {
@@ -1302,11 +1302,11 @@ class ProductRepository
                 SellerProductSKU::create([
                     'product_id' => $sellerProduct->id,
                     'product_sku_id' => $item->id,
-                    'product_stock' => $item->product_stock,
+                    // 'product_stock' => $item->product_stock,
                     'purchase_price' => $item->purchase_price,
                     'selling_price' => $item->selling_price,
                     'status' => 1,
-                    'user_id' => $product->created_by
+                    'user_id' => 1
                 ]);
     
                 $sellerProduct->update([
@@ -1340,7 +1340,7 @@ class ProductRepository
                 SellerProductSKU::create([
                     'product_id' => $sellerProduct_new->id,
                     'product_sku_id' => $item->id,
-                    'product_stock' => $item->product_stock,
+                    // 'product_stock' => $item->product_stock,
                     'purchase_price' => $item->purchase_price,
                     'selling_price' => $item->selling_price,
                     'status' => 1,

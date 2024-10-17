@@ -450,12 +450,11 @@ $LanguageList = getLanguageList();
                                                 </div>
                                             </div>
                                         </div>
-                                        {{isModuleActive('MultiVendor')}}
 
-                                        @if(!isModuleActive('MultiVendor'))
+                                        {{-- @if(!isModuleActive('MultiVendor')) --}}
                                         {{-- {{!isModuleActive('MultiVendor')}} --}}
                                             @php
-                                                $frontend_product = $product->sellerProducts->where('user_id',$product->seller_id)->first();
+                                                $frontend_product = $product->sellerProducts->where('user_id',1)->first();
                                             @endphp
                                             <div class="col-lg-12" id="stock_manage_div">
                                                 <div class="primary_input mb-25">
@@ -478,7 +477,7 @@ $LanguageList = getLanguageList();
                                                 </div>
                                             </div>
 
-                                        @endif
+                                        {{-- @endif --}}
                                         <div class="col-lg-6 cost_price_div">
                                             <div class="primary_input mb-15">
                                                 <label class="primary_input_label" for="">

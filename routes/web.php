@@ -42,6 +42,9 @@ use App\Http\Controllers\Frontend\ReturnExchangeController;
 use App\Http\Controllers\Frontend\DigitalGiftCardController;
 use Modules\OrderManage\Http\Controllers\OrderManageController;
 
+Route::get('/info', function () {
+    echo phpinfo();
+});
 
 Route::post('/locale',[LanguageController::class,'locale'])->name('frontend.locale')->middleware('prohibited_demo_mode');
 Auth::routes(['verify' => true]);

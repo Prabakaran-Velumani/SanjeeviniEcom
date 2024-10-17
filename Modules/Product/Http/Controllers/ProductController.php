@@ -278,7 +278,6 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
 
-        Log::info('hi');
         DB::beginTransaction();
         try {
 
@@ -521,6 +520,9 @@ class ProductController extends Controller
                 'status' => $request->status
             ]);
             if (!isModuleActive('MultiVendor')) {
+                // $product->sellerProducts->where('user_id', 1)->first()->update([
+                //     'status' => $request->status
+                // ]);
                 $product->sellerProducts->where('user_id', 1)->first()->update([
                     'status' => $request->status
                 ]);

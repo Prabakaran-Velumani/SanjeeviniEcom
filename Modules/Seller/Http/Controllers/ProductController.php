@@ -24,6 +24,7 @@ use Modules\OrderManage\Entities\CustomerNotification;
 use App\Traits\Notification as NotificationTrait;
 use Modules\GeneralSetting\Entities\NotificationSetting;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     protected $productService;

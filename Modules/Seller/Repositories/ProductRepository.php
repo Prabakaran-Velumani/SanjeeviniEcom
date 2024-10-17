@@ -33,24 +33,16 @@ class ProductRepository {
         $this->mainProduct = $mainProduct;
     }
     public function getAll(){
-            $seller_id = getParentSellerId();
-        
-        if($seller_id && auth()->user()->role->type == 'Seller'){
+        $seller_id = getParentSellerId();
+        Log::info('seller check');
+        if($seller_id){
             return $this->product::with(['product' => function($q1){
                 $q1->select('id','product_name','thumbnail_image_source','brand_id','subtitle_1','subtitle_2');
             },'product.brand' => function($q2){
                 $q2->select('id','name');
             },'skus'])->where('user_id',$seller_id);
-        }
-        elseif(auth()->user()->role->type  != 'Seller')
-        { 
-            return $this->product::with(['product' => function($q1){
-                $q1->select('id','product_name','thumbnail_image_source','brand_id','subtitle_1','subtitle_2');
-            },'product.brand' => function($q2){
-                $q2->select('id','name');
-            },'skus']);
-        }
-        else{
+
+        }else{
             return abort(404);
         }
     }
@@ -413,7 +405,7 @@ class ProductRepository {
         }
         if($product->product->product_type == 2){
             foreach($data['product_skus'] as $key => $item){
-                 // $variant = SellerProductSKU::where('product_sku_id',$item)->where('user_id', auth()->user()->id)->first();
+                // $variant = SellerProductSKU::where('product_sku_id',$item)->where('user_id', auth()->user()->id)->first();
                 $variant = SellerProductSKU::where('product_sku_id',$item)->where('user_id', $product->product->seller_id)->first();
                 if(isset($variant)){
                     $variant->update([

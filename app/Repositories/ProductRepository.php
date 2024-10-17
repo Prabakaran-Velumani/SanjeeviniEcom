@@ -20,7 +20,7 @@ use Modules\Setup\Entities\AlgoliaSearchConfiguration;
 use Modules\Setup\Entities\Tag;
 use Modules\Shipping\Entities\PickupLocation;
 use Modules\Shipping\Entities\ShippingMethod;
-
+use Illuminate\Support\Facades\Log;
 class ProductRepository
 {
 

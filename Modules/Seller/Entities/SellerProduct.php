@@ -218,7 +218,7 @@ class SellerProduct extends Model
     }
     public function scopeActiveSeller($query)
     {
-        $query = $query->where('seller_products.user_id', 1)->whereHas('product', function ($q) {
+        $query = $query->where('seller_products.user_id','!=',null)->whereHas('product', function ($q) {
             return $q->where('products.status', 1);
         })->where('seller_products.status', 1);
         if (isModuleActive('MultiVendor')) {

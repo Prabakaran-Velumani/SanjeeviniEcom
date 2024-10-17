@@ -174,7 +174,7 @@
         <input type="hidden" value="{{count($orders)}}" id="total_order">
         <input type="hidden" value="{{route('shipping.single_order_method_change',':id')}}" id="shipping_method_change_url">
         <input type="hidden" value="{{route('shipping.method_update')}}" id="shipping_method_update_url">
-        <input type="hidden" value="{{route('shipping.pickup_locations.set',':location')}}" id="set_pickup_location_url">
+        <input type="hidden" value="{{route('shipping.warehouse.set',':location')}}" id="set_pickup_location_url">
         <input type="hidden" value="{{route('shipping.update_carrier_order',':id')}}" id="update_carrier_order_url">
         <input type="hidden" value="{{route('shipping.packaging.edit',':id')}}" id="packaging_edit_url">
         <input type="hidden" value="{{route('shipping.packaging.update')}}" id="packaging_update_url">
